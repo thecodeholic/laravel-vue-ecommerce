@@ -25,3 +25,17 @@ export function logout({commit}) {
       return response;
     })
 }
+
+export function getProducts({commit, state}, {url = null, search, perPage}) {
+  commit('setProducts', [true])
+  url = url || '/products'
+  return axiosClient.get(url, {
+    params: {search,per_page: perPage}
+  })
+    .then((response) => {
+      commit('setProducts', [false, response.data])
+    })
+    .catch(() => {
+      commit('setProducts', [false])
+    })
+}
