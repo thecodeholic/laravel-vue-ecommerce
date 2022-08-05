@@ -10,6 +10,10 @@ import store from "../store";
 
 const routes = [
   {
+    path: '/',
+    redirect: '/app'
+  },
+  {
     path: '/app',
     name: 'app',
     component: AppLayout,
