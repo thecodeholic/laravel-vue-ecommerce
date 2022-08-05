@@ -1,15 +1,14 @@
 <template>
   <div class="flex items-center justify-between mb-3">
     <h1 class="text-3xl font-semibold">Products</h1>
-    <button type="submit"
-            class="flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    <button type="button"
+            @click="showAddNewModal()"
+            class="py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
     >
       Add new Product
     </button>
   </div>
   <div class="bg-white p-4 rounded-lg shadow">
-    {{ search }}
-
     <div class="flex justify-between border-b-2 pb-3">
       <div class="flex items-center">
         <span class="whitespace-nowrap mr-3">Per Page</span>
@@ -111,6 +110,7 @@
       </nav>
     </div>
   </div>
+  <AddNewProduct v-model="showProductModal"/>
 </template>
 
 <script setup>
@@ -119,12 +119,15 @@ import store from "../store";
 import Spinner from "../components/core/Spinner.vue";
 import {PRODUCTS_PER_PAGE} from "../constants";
 import TableHeaderCell from "../components/core/Table/TableHeaderCell.vue";
+import AddNewProduct from "./AddNewProduct.vue";
 
 const perPage = ref(PRODUCTS_PER_PAGE);
 const search = ref('');
 const products = computed(() => store.state.products);
 const sortField = ref('updated_at');
 const sortDirection = ref('desc')
+
+const showProductModal = ref(false);
 
 onMounted(() => {
   getProducts();
@@ -162,6 +165,10 @@ function sortProducts(field) {
   }
 
   getProducts()
+}
+
+function showAddNewModal() {
+  showProductModal.value = true
 }
 </script>
 
