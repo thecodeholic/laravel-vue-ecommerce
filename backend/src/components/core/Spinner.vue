@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center py-8">
     <svg
-      class="animate-spin -ml-1 mr-3 h-8 w-8 text-gray-700"
+      class="animate-spin -ml-1 h-8 w-8 text-gray-700"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
