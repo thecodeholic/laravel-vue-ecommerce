@@ -189,6 +189,8 @@ const sortDirection = ref('desc')
 const product = ref({})
 const showProductModal = ref(false);
 
+const emit = defineEmits(['clickEdit'])
+
 onMounted(() => {
   getProducts();
 })
@@ -243,11 +245,7 @@ function deleteProduct(product) {
 }
 
 function editProduct(p) {
-  store.dispatch('getProduct', p.id)
-    .then(({data}) => {
-      product.value = data
-      showAddNewModal();
-    })
+  emit('clickEdit', p)
 }
 </script>
 
