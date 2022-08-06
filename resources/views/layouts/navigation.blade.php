@@ -3,36 +3,13 @@
     class="flex justify-between bg-slate-800 shadow-md text-white"
 >
     <div>
-        <a href="/src" class="block py-navbar-item pl-5"> Logo </a>
+        <a href="{{ route('home') }}" class="block py-navbar-item pl-5"> Logo </a>
     </div>
     <!-- Responsive Menu -->
     <div
         class="block fixed z-10 top-0 bottom-0 height h-full w-[220px] transition-all bg-slate-900 md:hidden"
         :class="mobileMenuOpen ? 'left-0' : '-left-[220px]'"
     >
-        <ul>
-            <li>
-                <a
-                    href="{{ route('home') }}"
-                    class="block py-2 px-3 transition-colors hover:bg-slate-800"
-                >Home</a
-                >
-            </li>
-            <li>
-                <a
-                    href="#"
-                    class="block py-2 px-3 transition-colors hover:bg-slate-800"
-                >Categories</a
-                >
-            </li>
-            <li>
-                <a
-                    href="#"
-                    class="block py-2 px-3 transition-colors hover:bg-slate-800"
-                >Something</a
-                >
-            </li>
-        </ul>
         <ul>
             <li>
                 <a
@@ -242,31 +219,6 @@
         </ul>
     </div>
     <!--/ Responsive Menu -->
-    <nav class="hidden md:block">
-        <ul class="grid grid-flow-col">
-            <li>
-                <a
-                    href="{{ route('home') }}"
-                    class="block py-navbar-item px-navbar-item hover:bg-slate-900"
-                >Home</a
-                >
-            </li>
-            <li>
-                <a
-                    href="#"
-                    class="block py-navbar-item px-navbar-item hover:bg-slate-900"
-                >Categories</a
-                >
-            </li>
-            <li>
-                <a
-                    href="#"
-                    class="block py-navbar-item px-navbar-item hover:bg-slate-900"
-                >Something</a
-                >
-            </li>
-        </ul>
-    </nav>
     <nav class="hidden md:block">
         <ul class="grid grid-flow-col items-center">
             <li>
