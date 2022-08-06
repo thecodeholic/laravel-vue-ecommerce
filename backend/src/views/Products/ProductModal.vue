@@ -15,7 +15,7 @@
                            leave-from="opacity-100 translate-y-0 sm:scale-100"
                            leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <DialogPanel
-              class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+              class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-[700px] sm:w-full">
               <Spinner v-if="loading"
                        class="absolute left-0 top-0 bg-white right-0 bottom-0 flex items-center justify-center"/>
               <header class="py-3 px-4 flex justify-between items-center">
@@ -43,7 +43,7 @@
                 </button>
               </header>
               <form @submit.prevent="onSubmit">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="bg-white px-4 pt-5 pb-4">
                   <CustomInput class="mb-2" v-model="product.title" label="Product Title"/>
                   <CustomInput type="file" class="mb-2" label="Product Image" @change="file => product.image = file"/>
                   <CustomInput type="textarea" class="mb-2" v-model="product.description" label="Description"/>
@@ -72,9 +72,9 @@
 import {computed, onUpdated, ref} from 'vue'
 import {Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot} from '@headlessui/vue'
 import {ExclamationIcon} from '@heroicons/vue/outline'
-import CustomInput from "../components/core/CustomInput.vue";
-import store from "../store/index.js";
-import Spinner from "../components/core/Spinner.vue";
+import CustomInput from "../../components/core/CustomInput.vue";
+import store from "../../store/index.js";
+import Spinner from "../../components/core/Spinner.vue";
 
 const product = ref({
   id: props.product.id,
