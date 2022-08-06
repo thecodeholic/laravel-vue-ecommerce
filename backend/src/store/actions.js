@@ -57,3 +57,7 @@ export function  createProduct({commit}, product) {
   }
   return axiosClient.post('/products', product)
 }
+
+export function deleteProduct({commit}, id) {
+  axiosClient.delete(`/products/${id}`)
+}
