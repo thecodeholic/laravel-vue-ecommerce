@@ -1,59 +1,73 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+<x-app-layout>
+    <form
+        action=""
+        method="post"
+        class="w-[400px] mx-auto p-6 my-16"
+        x-data="signupForm"
+        @submit.prevent="submit"
+    >
+        <h2 class="text-2xl font-semibold text-center mb-4">Create an account</h2>
+        <p class="text-center text-gray-500 mb-3">
+            or
+            <a
+                href="{{ route('login') }}"
+                class="text-sm text-purple-700 hover:text-purple-600"
+            >login with existing account</a
+            >
+        </p>
+        <div class="mb-4">
+            <input
+                placeholder="Your name"
+                type="text"
+                name="name"
+                x-model="form.name"
+                @input="validateName()"
+                class="focus:outline-none  rounded-md w-full"
+                :class="errors.name ? errorClasses : (form.name ? successClasses : defaultClasses)"
+            />
+            <small x-show="errors.name" x-text="errors.name" class="text-red-600"></small>
+        </div>
+        <div class="mb-4">
+            <input
+                placeholder="Your Email"
+                type="email"
+                name="email"
+                x-model="form.email"
+                @input="validateEmail()"
+                class="focus:outline-none  rounded-md w-full"
+                :class="errors.email ? errorClasses : (form.email ? successClasses : defaultClasses)"
+            />
+            <small x-show="errors.email" x-text="errors.email" class="text-red-600"></small>
+        </div>
+        <div class="mb-4">
+            <input
+                placeholder="Password"
+                type="password"
+                name="password"
+                x-model="form.password"
+                @input="validatePassword()"
+                class="border-gray-300 focus:outline-none  rounded-md w-full"
+                :class="errors.password ? errorClasses : (form.password ? successClasses : defaultClasses)"
+            />
+            <small x-show="errors.password" x-text="errors.password" class="text-red-600"></small>
+        </div>
+        <div class="mb-4">
+            <input
+                placeholder="Repeat Password"
+                type="password"
+                name="password"
+                x-model="form.password_repeat"
+                @input="validatePasswordRepeat()"
+                class="border-gray-300 focus:outline-none  rounded-md w-full"
+                :class="errors.password_repeat ? errorClasses : (form.password_repeat ? successClasses : defaultClasses)"
+            />
+            <small x-show="errors.password_repeat" x-text="errors.password_repeat" class="text-red-600"></small>
+        </div>
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
-
-            <!-- Name -->
-            <div>
-                <x-label for="name" :value="__('Name')" />
-
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
-            </div>
-
-            <!-- Email Address -->
-            <div class="mt-4">
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
-            </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="new-password" />
-            </div>
-
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <x-label for="password_confirmation" :value="__('Confirm Password')" />
-
-                <x-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
-
-                <x-button class="ml-4">
-                    {{ __('Register') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+        <button
+            class="btn-primary bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 w-full"
+        >
+            Signup
+        </button>
+    </form>
+</x-app-layout>
