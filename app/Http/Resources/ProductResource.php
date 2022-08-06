@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\URL;
 
 class ProductResource extends JsonResource
 {
+    public static $wrap = false;
+
     /**
      * Transform the resource into an array.
      *
