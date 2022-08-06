@@ -16,6 +16,7 @@
                            leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <DialogPanel
               class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+              <Spinner v-if="loading" class="absolute left-0 top-0 bg-white right-0 bottom-0 flex items-center justify-center"/>
               <header class="py-3 px-4 flex justify-between items-center">
                 <DialogTitle as="h3" class="text-lg leading-6 font-medium text-gray-900"> Create new Product
                 </DialogTitle>
@@ -40,22 +41,22 @@
                 </button>
               </header>
               <form @submit.prevent="onSubmit">
-              <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <CustomInput class="mb-2" v-model="product.title" label="Product Title"/>
-                <CustomInput type="textarea" class="mb-2" v-model="product.description" label="Description"/>
-                <CustomInput type="number" class="mb-2" v-model="product.price" label="Price"/>
-                <CustomInput class="mb-2" v-model="product.title" label="Product Title"/>
-              </div>
-              <footer class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button type="submit"
-                        class="py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ml-3">
-                  Submit
-                </button>
-                <button type="button"
-                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                        @click="show = false" ref="cancelButtonRef">Cancel
-                </button>
-              </footer>
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                  <CustomInput class="mb-2" v-model="product.title" label="Product Title"/>
+                  <CustomInput type="file" class="mb-2" label="Product Image" @change="file => product.image = file"/>
+                  <CustomInput type="textarea" class="mb-2" v-model="product.description" label="Description"/>
+                  <CustomInput type="number" class="mb-2" v-model="product.price" label="Price"/>
+                </div>
+                <footer class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                  <button type="submit"
+                          class="py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ml-3">
+                    Submit
+                  </button>
+                  <button type="button"
+                          class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                          @click="show = false" ref="cancelButtonRef">Cancel
+                  </button>
+                </footer>
               </form>
             </DialogPanel>
           </TransitionChild>
@@ -71,6 +72,7 @@ import {Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot} from 
 import {ExclamationIcon} from '@heroicons/vue/outline'
 import CustomInput from "../components/core/CustomInput.vue";
 import store from "../store/index.js";
+import Spinner from "../components/core/Spinner.vue";
 
 const product = ref({
   title: null,
@@ -78,6 +80,8 @@ const product = ref({
   description: null,
   price: null
 })
+
+const loading = ref(false)
 
 const props = defineProps({
   modelValue: Boolean,
@@ -95,13 +99,19 @@ function closeModal() {
 }
 
 function onSubmit() {
+  loading.value = true
   store.dispatch('createProduct', product.value)
     .then(response => {
-      debugger;
+      loading.value = false;
       if (response.status === 201) {
         // TODO show notification
         store.dispatch('getProducts')
+        closeModal()
       }
+    })
+    .catch(err => {
+      loading.value = false;
+      debugger;
     })
 }
 </script>
