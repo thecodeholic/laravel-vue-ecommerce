@@ -16,9 +16,11 @@
                            leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <DialogPanel
               class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
-              <Spinner v-if="loading" class="absolute left-0 top-0 bg-white right-0 bottom-0 flex items-center justify-center"/>
+              <Spinner v-if="loading"
+                       class="absolute left-0 top-0 bg-white right-0 bottom-0 flex items-center justify-center"/>
               <header class="py-3 px-4 flex justify-between items-center">
-                <DialogTitle as="h3" class="text-lg leading-6 font-medium text-gray-900"> Create new Product
+                <DialogTitle as="h3" class="text-lg leading-6 font-medium text-gray-900">
+                  {{ product.id ? `Update product: "${props.product.title}"` : 'Create new Product' }}
                 </DialogTitle>
                 <button
                   @click="closeModal()"
@@ -67,7 +69,7 @@
 </template>
 
 <script setup>
-import {computed, ref} from 'vue'
+import {computed, onUpdated, ref} from 'vue'
 import {Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot} from '@headlessui/vue'
 import {ExclamationIcon} from '@heroicons/vue/outline'
 import CustomInput from "../components/core/CustomInput.vue";
@@ -75,16 +77,22 @@ import store from "../store/index.js";
 import Spinner from "../components/core/Spinner.vue";
 
 const product = ref({
-  title: null,
-  image: null,
-  description: null,
-  price: null
+  id: props.product.id,
+  title: props.product.title,
+  image: props.product.image,
+  description: props.product.description,
+  price: props.product.price
 })
 
 const loading = ref(false)
 
 const props = defineProps({
   modelValue: Boolean,
+  product: {
+    required: false,
+    type: Object,
+    default: {}
+  }
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -94,24 +102,46 @@ const show = computed({
   set: (value) => emit('update:modelValue', value)
 })
 
+onUpdated(() => {
+  product.value = {
+    id: props.product.id,
+    title: props.product.title,
+    image: props.product.image,
+    description: props.product.description,
+    price: props.product.price
+  }
+})
+
 function closeModal() {
   show.value = false
 }
 
 function onSubmit() {
   loading.value = true
-  store.dispatch('createProduct', product.value)
-    .then(response => {
-      loading.value = false;
-      if (response.status === 201) {
-        // TODO show notification
-        store.dispatch('getProducts')
-        closeModal()
-      }
-    })
-    .catch(err => {
-      loading.value = false;
-      debugger;
-    })
+  if (product.value.id) {
+    store.dispatch('updateProduct', product.value)
+      .then(response => {
+        loading.value = false;
+        if (response.status === 200) {
+          // TODO show notification
+          store.dispatch('getProducts')
+          closeModal()
+        }
+      })
+  } else {
+    store.dispatch('createProduct', product.value)
+      .then(response => {
+        loading.value = false;
+        if (response.status === 201) {
+          // TODO show notification
+          store.dispatch('getProducts')
+          closeModal()
+        }
+      })
+      .catch(err => {
+        loading.value = false;
+        debugger;
+      })
+  }
 }
 </script>

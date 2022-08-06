@@ -79,9 +79,27 @@ class ProductController extends Controller
      * @param \App\Models\Product      $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        $product->update($request->validated());
+        $data = $request->validated();
+        $data['updated_by'] = $request->user()->id;
+
+        /** @var \Illuminate\Http\UploadedFile $image */
+        $image = $data['image'] ?? null;
+        // Check if image was given and save on local file system
+        if ($image) {
+            $relativePath = $this->saveImage($image);
+            $data['image'] = $relativePath;
+            $data['image_mime'] = $image->getClientMimeType();
+            $data['image_size'] = $image->getSize();
+
+            // If there is an old image, delete it
+            if ($product->image) {
+                Storage::deleteDirectory('/public/' . dirname($product->image));
+            }
+        }
+
+        $product->update($data);
 
         return new ProductResource($product);
     }
@@ -105,7 +123,7 @@ class ProductController extends Controller
         if (!Storage::exists($path)) {
             Storage::makeDirectory($path, 0755, true);
         }
-        if (!Storage::putFileAS('public/'.$path, $image, $image->getClientOriginalName())) {
+        if (!Storage::putFileAS('public/' . $path, $image, $image->getClientOriginalName())) {
             throw new \Exception("Unable to save file \"{$image->getClientOriginalName()}\"");
         }
 
