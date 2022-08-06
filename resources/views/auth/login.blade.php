@@ -16,26 +16,12 @@
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')"/>
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors"/>
-
         @csrf
-
         <div class="mb-4">
-            <x-input
-                id="loginEmail"
-                type="email"
-                name="email"
-                placeholder="Your email address"
-            />
+            <x-input type="email" name="email" placeholder="Your email address" :value="old('email')"/>
         </div>
         <div class="mb-4">
-            <x-input
-                id="loginPassword"
-                type="password"
-                name="password"
-                placeholder="Your password"
-            />
+            <x-input type="password" name="password" placeholder="Your password" :value="old('password')" />
         </div>
         <div class="flex justify-between items-center mb-5">
             <div class="flex items-center">
