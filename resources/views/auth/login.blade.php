@@ -22,21 +22,19 @@
         @csrf
 
         <div class="mb-4">
-            <input
+            <x-input
                 id="loginEmail"
                 type="email"
                 name="email"
                 placeholder="Your email address"
-                class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
             />
         </div>
         <div class="mb-4">
-            <input
+            <x-input
                 id="loginPassword"
                 type="password"
                 name="password"
                 placeholder="Your password"
-                class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
             />
         </div>
         <div class="flex justify-between items-center mb-5">
