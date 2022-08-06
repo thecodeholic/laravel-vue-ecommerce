@@ -6,6 +6,7 @@
     },
     "devDependencies": {
         "@alpinejs/collapse": "^3.10.3",
+        "@tailwindcss/aspect-ratio": "^0.4.0",
         "@tailwindcss/forms": "^0.5.2",
         "alpinejs": "^3.4.2",
         "autoprefixer": "^10.4.2",
