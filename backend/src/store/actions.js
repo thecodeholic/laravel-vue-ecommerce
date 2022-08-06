@@ -50,7 +50,7 @@ export function getProduct({commit}, id) {
   return axiosClient.get(`/products/${id}`)
 }
 
-export function  createProduct({commit}, product) {
+export function createProduct({commit}, product) {
   if (product.image instanceof File) {
     const form = new FormData();
     form.append('title', product.title);
@@ -73,6 +73,8 @@ export function updateProduct({commit}, product) {
     form.append('price', product.price);
     form.append('_method', 'PUT');
     product = form;
+  } else {
+    product._method = 'PUT'
   }
   return axiosClient.post(`/products/${id}`, product)
 }
