@@ -1,11 +1,9 @@
 <x-app-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+    <div class="w-[400px] mx-auto my-16">
 
+        <h2 class="text-2xl font-semibold text-center mb-5">
+            Enter your new password
+        </h2>
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
@@ -44,5 +42,5 @@
                 </x-button>
             </div>
         </form>
-    </x-auth-card>
+    </div>
 </x-app-layout>
