@@ -33,12 +33,13 @@ class CartController extends Controller
 
     public function add(Request $request, Product $product)
     {
+        $quantity = $request->post('quantity', 1);
         $user = $request->user();
         if ($user) {
             $data = [
                 'user_id' => $request->user()->id,
                 'product_id' => $product->id,
-                'quantity' => 1,
+                'quantity' => $quantity,
                 'price' => $product->price
             ];
             CartItem::create($data);
@@ -52,7 +53,7 @@ class CartController extends Controller
             $productFound = false;
             foreach ($cartItems as &$item) {
                 if ($item['product_id'] === $product->id) {
-                    $item['quantity'] += 1;
+                    $item['quantity'] += $quantity;
                     $productFound = true;
                     break;
                 }
@@ -61,7 +62,7 @@ class CartController extends Controller
                 $cartItems[] = [
                     'user_id' => null,
                     'product_id' => $product->id,
-                    'quantity' => 1,
+                    'quantity' => $quantity,
                     'price' => $product->price
                 ];
             }
