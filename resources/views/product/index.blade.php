@@ -7,6 +7,7 @@
             <div
                 x-data="productItem({{ json_encode([
                     'id' => $product->id,
+                    'slug' => $product->slug,
                     'image' => $product->image,
                     'title' => $product->title,
                     'price' => $product->price,
@@ -31,8 +32,7 @@
                 <div class="flex justify-between py-3 px-4">
                     <button
                         @click="addToWatchlist()"
-                        class="w-10 h-10 rounded-full border border-1 border-purple-600 flex items-center justify-center hover:bg-purple-600 hover:text-white active:bg-purple-800 transition-colors"
-                        :class="isInWatchlist(id) ? 'bg-purple-600 text-white' : 'text-purple-600'"
+                        class="w-10 h-10 rounded-full border border-1 border-purple-600 text-purple-600 flex items-center justify-center hover:bg-purple-600 hover:text-white active:bg-purple-800 transition-colors"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +49,7 @@
                             />
                         </svg>
                     </button>
-                    <button class="btn-primary" @click="addToCart(id)">
+                    <button class="btn-primary" @click="addToCart()">
                         Add to Cart
                     </button>
                 </div>

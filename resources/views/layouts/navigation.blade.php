@@ -1,5 +1,10 @@
 <header
-    x-data="{mobileMenuOpen: false}"
+    x-data="{
+        mobileMenuOpen: false,
+        cartItemsCount: {{ \App\Helpers\Cart::getCartItemsCount() }},
+        watchlistItems: 0,
+    }"
+    @cart-change.window="cartItemsCount = $event.detail.count"
     class="flex justify-between bg-slate-800 shadow-md text-white"
 >
     <div>
@@ -13,7 +18,7 @@
         <ul>
             <li>
                 <a
-                    href="/src/cart.html"
+                    href="{{ route('cart.index') }}"
                     class="relative flex items-center justify-between py-2 px-3 transition-colors hover:bg-slate-800"
                 >
                     <div class="flex items-center">
@@ -35,9 +40,9 @@
                     </div>
                     <!-- Cart Items Counter -->
                     <small
-                        x-show="$store.header.cartItems"
+                        x-show="cartItemsCount"
                         x-transition
-                        x-text="$store.header.cartItems"
+                        x-text="cartItemsCount"
                         x-cloak
                         class="py-[2px] px-[8px] rounded-full bg-red-500"
                     ></small>
@@ -126,9 +131,9 @@
                                 Watchlist
 
                                 <small
-                                    x-show="$store.header.watchlistItems"
+                                    x-show="watchlistItems"
                                     x-transition
-                                    x-text="$store.header.watchlistItems"
+                                    x-text="watchlistItems"
                                     class="py-[2px] px-[8px] rounded-full bg-red-500"
                                 ></small>
                             </a>
@@ -223,7 +228,7 @@
         <ul class="grid grid-flow-col items-center">
             <li>
                 <a
-                    href="/src/cart.html"
+                    href="{{ route('cart.index') }}"
                     class="relative inline-flex items-center py-navbar-item px-navbar-item hover:bg-slate-900"
                 >
                     <svg
@@ -242,10 +247,10 @@
                     </svg>
                     Cart
                     <small
-                        x-show="$store.header.cartItems"
+                        x-show="cartItemsCount"
                         x-transition
                         x-cloak
-                        x-text="$store.header.cartItems"
+                        x-text="cartItemsCount"
                         class="absolute z-[100] top-4 -right-3 py-[2px] px-[8px] rounded-full bg-red-500"
                     ></small>
                 </a>
@@ -339,9 +344,9 @@
                                 </div>
 
                                 <small
-                                    x-show="$store.header.watchlistItems"
+                                    x-show="watchlistItems"
                                     x-transition
-                                    x-text="$store.header.watchlistItems"
+                                    x-text="watchlistItems"
                                     class="py-[2px] px-[8px] rounded-full bg-red-500"
                                 ></small>
                             </a>
