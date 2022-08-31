@@ -36,17 +36,23 @@ class CartController extends Controller
         $quantity = $request->post('quantity', 1);
         $user = $request->user();
         if ($user) {
-            $data = [
-                'user_id' => $request->user()->id,
-                'product_id' => $product->id,
-                'quantity' => $quantity,
-                'price' => $product->price
-            ];
-            CartItem::create($data);
+
+            $cartItem = CartItem::where(['user_id' => $user->id, 'product_id' => $product->id])->first();
+
+            if ($cartItem) {
+                $cartItem->quantity += $quantity;
+                $cartItem->update();
+            } else {
+                $data = [
+                    'user_id' => $request->user()->id,
+                    'product_id' => $product->id,
+                    'quantity' => $quantity,
+                ];
+                CartItem::create($data);
+            }
 
             return response([
-                'count' => Cart::getCartItemsCount(),
-                'total' => CartItem::where(['user_id' => $request->user()->id])->sum('price * quantity')
+                'count' => Cart::getCartItemsCount()
             ]);
         } else {
             $cartItems = json_decode($request->cookie('cart_items', '[]'), true);
