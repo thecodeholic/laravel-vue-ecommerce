@@ -57,18 +57,4 @@ class Cart
             0
         );
     }
-
-    public static function getCountAndTotalFromItems($cartItems)
-    {
-        return array_reduce(
-            $cartItems,
-            function ($carry, $item) {
-                return [
-                    'count' => $carry['count'] + $item['quantity'],
-                    'total' => $carry['total'] + ( $item['quantity'] * $item['price'] )
-                ];
-            },
-            ['count' => 0, 'total' => 0]
-        );
-    }
 }
