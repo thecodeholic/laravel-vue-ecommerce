@@ -59,8 +59,11 @@ document.addEventListener("alpine:init", async () => {
           .then(result => {
             this.$dispatch('cart-change', {count: result.count})
             this.$dispatch("notify", {
-                message: "The item was added into the cart",
+              message: "The item was added into the cart",
             });
+          })
+          .catch(response => {
+            console.log(response);
           })
       },
       removeItemFromCart() {
