@@ -24,7 +24,7 @@ class Cart
         $request = \request();
         $user = $request->user();
         if ($user) {
-            return CartItem::where('user_id', $user->id)->count();
+            return CartItem::where('user_id', $user->id)->sum('quantity');
         } else {
             $cartItems = json_decode($request->cookie('cart_items', '[]'), true);
 
@@ -63,10 +63,10 @@ class Cart
     {
         return array_reduce(
             $cartItems,
-            function($carry, $item) {
+            function ($carry, $item) {
                 return [
                     'count' => $carry['count'] + $item['quantity'],
-                    'total' => $carry['total'] + ($item['quantity'] * $item['price'])
+                    'total' => $carry['total'] + ( $item['quantity'] * $item['price'] )
                 ];
             },
             ['count' => 0, 'total' => 0]
