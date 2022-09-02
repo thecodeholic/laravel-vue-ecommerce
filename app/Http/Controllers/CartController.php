@@ -77,7 +77,7 @@ class CartController extends Controller
     {
         $user = $request->user();
         if ($user) {
-            $cartItem = CartItem::query()->where(['user_id', $user->id, 'product_id' => $product->id])->first();
+            $cartItem = CartItem::query()->where(['user_id' => $user->id, 'product_id' => $product->id])->first();
             if ($cartItem) {
                 $cartItem->delete();
             }
