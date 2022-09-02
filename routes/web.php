@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\WatchlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
