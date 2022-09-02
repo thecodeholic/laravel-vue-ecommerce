@@ -12,7 +12,9 @@
                         'title' => $product->title,
                         'price' => $product->price,
                         'quantity' => $cartItems[$product->id]['quantity'],
-                        'href' => route('product.view', $product->slug)
+                        'href' => route('product.view', $product->slug),
+                        'removeUrl' => route('cart.remove', $product),
+                        'updateQuantityUrl' => route('cart.update-quantity', $product)
                     ])
                 )
             }},

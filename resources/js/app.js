@@ -55,7 +55,7 @@ document.addEventListener("alpine:init", async () => {
     return {
       product,
       addToCart(quantity = 1) {
-        post(`/cart/add/${product.slug}`, {quantity})
+        post(this.product.addToCartUrl, {quantity})
           .then(result => {
             this.$dispatch('cart-change', {count: result.count})
             this.$dispatch("notify", {
@@ -67,7 +67,7 @@ document.addEventListener("alpine:init", async () => {
           })
       },
       removeItemFromCart() {
-        post(`/cart/remove/${product.slug}`)
+        post(this.product.removeUrl)
           .then(result => {
             this.$dispatch("notify", {
               message: "The item was removed from cart",
@@ -77,7 +77,7 @@ document.addEventListener("alpine:init", async () => {
           })
       },
       changeQuantity() {
-        post(`/cart/update-quantity/${product.slug}`, {quantity: product.quantity})
+        post(this.product.updateQuantityUrl, {quantity: product.quantity})
           .then(result => {
             this.$dispatch('cart-change', {count: result.count})
             this.$dispatch("notify", {

@@ -26,11 +26,6 @@ class CartController extends Controller
         return view('cart.index', compact('cartItems', 'products', 'total'));
     }
 
-    public function getTotalCount()
-    {
-        return response(['count' => Cart::getCartItemsCount()]);
-    }
-
     public function add(Request $request, Product $product)
     {
         $quantity = $request->post('quantity', 1);
