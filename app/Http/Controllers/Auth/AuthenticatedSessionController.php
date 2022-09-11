@@ -30,29 +30,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        // Move cart items from cookies into Database
-        $cartItems = Cart::getCartItems();
-
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        $dbCartItems = CartItem::where(['user_id' => $request->user()->id])->get()->keyBy('product_id');
-        $newCartItems = [];
-        foreach ($cartItems as $cartItem) {
-            if (isset($dbCartItems[$cartItem['product_id']])) {
-                continue;
-            }
-            $newCartItems[] = [
-                'user_id' => $request->user()->id,
-                'product_id' => $cartItem['product_id'],
-                'quantity' => $cartItem['quantity'],
-            ];
-        }
-
-        if (!empty($newCartItems)) {
-            CartItem::insert($newCartItems);
-        }
+        Cart::moveCartItemsIntoDb();
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
