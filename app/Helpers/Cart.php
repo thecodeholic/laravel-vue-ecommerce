@@ -26,7 +26,7 @@ class Cart
         if ($user) {
             return CartItem::where('user_id', $user->id)->sum('quantity');
         } else {
-            $cartItems = json_decode($request->cookie('cart_items', '[]'), true);
+            $cartItems = self::getCookieCartItems();
 
             return array_reduce(
                 $cartItems,
