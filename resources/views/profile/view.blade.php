@@ -27,6 +27,20 @@
                         'country_code' => old('shipping.country_code', $shippingAddress->country_code),
                         'zipcode' => old('shipping.zipcode', $shippingAddress->zipcode),
                     ]) }},
+                    get billingCountryStates() {
+                        const country = this.countries.find(c => c.code === this.billingAddress.country_code)
+                        if (country && country.states) {
+                            return JSON.parse(country.states);
+                        }
+                        return null;
+                    },
+                    get shippingCountryStates() {
+                        const country = this.countries.find(c => c.code === this.shippingAddress.country_code)
+                        if (country && country.states) {
+                            return JSON.parse(country.states);
+                        }
+                        return null;
+                    }
                 }" action="{{ route('profile.update') }}" method="post">
                     @csrf
                     <h2 class="text-xl font-semibold mb-2">Profile Details</h2>
@@ -120,13 +134,28 @@
                             </x-input>
                         </div>
                         <div>
-                            <x-input
-                                type="text"
-                                name="billing[state]"
-                                x-model="billingAddress.state"
-                                placeholder="State"
-                                class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
-                            />
+                            <template x-if="billingCountryStates">
+                                <x-input type="select"
+                                         name="billing[state]"
+                                         x-model="billingAddress.state"
+                                         class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
+                                    <option value="">Select State</option>
+                                    <template x-for="[code, state] of Object.entries(billingCountryStates)"
+                                              :key="code">
+                                        <option :selected="code === billingAddress.state"
+                                                :value="code" x-text="state"></option>
+                                    </template>
+                                </x-input>
+                            </template>
+                            <template x-if="!billingCountryStates">
+                                <x-input
+                                    type="text"
+                                    name="billing[state]"
+                                    x-model="billingAddress.state"
+                                    placeholder="State"
+                                    class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
+                                />
+                            </template>
                         </div>
                     </div>
 
@@ -192,13 +221,28 @@
                             </x-input>
                         </div>
                         <div>
-                            <x-input
-                                type="text"
-                                name="shipping[state]"
-                                x-model="shippingAddress.state"
-                                placeholder="State"
-                                class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
-                            />
+                            <template x-if="shippingCountryStates">
+                                <x-input type="select"
+                                         name="shipping[state]"
+                                         x-model="shippingAddress.state"
+                                         class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
+                                    <option value="">Select State</option>
+                                    <template x-for="[code, state] of Object.entries(shippingCountryStates)"
+                                              :key="code">
+                                        <option :selected="code === shippingAddress.state"
+                                                :value="code" x-text="state"></option>
+                                    </template>
+                                </x-input>
+                            </template>
+                            <template x-if="!shippingCountryStates">
+                                <x-input
+                                    type="text"
+                                    name="shipping[state]"
+                                    x-model="shippingAddress.state"
+                                    placeholder="State"
+                                    class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
+                                />
+                            </template>
                         </div>
                     </div>
 
