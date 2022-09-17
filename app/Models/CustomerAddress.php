@@ -12,8 +12,8 @@ class CustomerAddress extends Model
 
     protected $fillable = ['type', 'address1', 'address2', 'city', 'state', 'zipcode', 'country_code', 'customer_id'];
 
-    public function getCustomer(): HasOne
+    public function customer(): HasOne
     {
-        return $this->hasOne(Customer::class);
+        return $this->hasOne(Customer::class, 'user_id', 'customer_id');
     }
 }

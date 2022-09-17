@@ -13,23 +13,23 @@ class Customer extends Model
 
     protected $fillable = ['first_name', 'last_name', 'phone', 'status',];
 
-    public function getUser()
+    public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 
     private function _getAddresses(): HasOne
     {
-        return $this->hasOne(CustomerAddress::class, 'customer_id');
+        return $this->hasOne(CustomerAddress::class, 'customer_id', 'user_id');
     }
 
-    public function getShippingAddress(): HasOne
+    public function shippingAddress(): HasOne
     {
-        return $this->_getAddresses()->where('type', AddressType::Shipping);
+        return $this->_getAddresses()->where('type', '=', AddressType::Shipping->value);
     }
 
-    public function getBillingAddress(): HasOne
+    public function billingAddress(): HasOne
     {
-        return $this->_getAddresses()->where('type', AddressType::Billing);
+        return $this->_getAddresses()->where('type', '=', AddressType::Billing->value);
     }
 }
