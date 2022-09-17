@@ -3,23 +3,36 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
             <div class="bg-white p-3 shadow rounded-lg md:col-span-2">
                 <h2 class="text-xl font-semibold mb-2">Profile Details</h2>
-                <div class="mb-3">
-                    <input
+                <div class="flex gap-3 mb-3">
+                    <x-input
                         type="text"
-                        placeholder="Your Name"
+                        name="first_name"
+                        value="{{$customer->first_name}}"
+                        placeholder="First Name"
+                        class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
+                    />
+                    <x-input
+                        type="text"
+                        name="last_name"
+                        value="{{$customer->last_name}}"
+                        placeholder="Last Name"
                         class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                     />
                 </div>
                 <div class="mb-3">
-                    <input
+                    <x-input
                         type="text"
+                        name="email"
+                        value="{{$user->email}}"
                         placeholder="Your Email"
                         class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                     />
                 </div>
                 <div class="mb-3">
-                    <input
+                    <x-input
                         type="text"
+                        name="phone"
+                        value="{{$customer->phone}}"
                         placeholder="Your Phone"
                         class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                     />
@@ -28,15 +41,19 @@
                 <h2 class="text-xl mt-6 font-semibold mb-2">Billing Address</h2>
                 <div class="grid grid-cols-2 gap-3 mb-3">
                     <div>
-                        <input
+                        <x-input
                             type="text"
+                            name="billing_address1"
+                            value="{{$billingAddress->address1}}"
                             placeholder="Address 1"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                         />
                     </div>
                     <div>
-                        <input
+                        <x-input
                             type="text"
+                            name="billing_address2"
+                            value="{{$billingAddress->address2}}"
                             placeholder="Address 2"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                         />
@@ -44,15 +61,19 @@
                 </div>
                 <div class="grid grid-cols-2 gap-3 mb-3">
                     <div>
-                        <input
+                        <x-input
                             type="text"
+                            name="billing_city"
+                            value="{{$billingAddress->city}}"
                             placeholder="City"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                         />
                     </div>
                     <div>
-                        <input
+                        <x-input
                             type="text"
+                            name="billing_state"
+                            value="{{$billingAddress->state}}"
                             placeholder="State"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                         />
@@ -60,17 +81,20 @@
                 </div>
                 <div class="grid grid-cols-2 gap-3 mb-3">
                     <div>
-                        <select class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
+                        <select name="billing_country_code"
+                                class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
                             <option value="">Select Country</option>
-                            <option value="ge">Georgia</option>
-                            <option value="us">USA</option>
-                            <option value="in">India</option>
-                            <option value="de">Germany</option>
+                            @foreach($countries as $country)
+                                <option
+                                    {{$country->code === $billingAddress->country_code ? 'selected' : ''}} value="{{ $country->code }}">{{$country->name}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div>
-                        <input
+                        <x-input
                             type="text"
+                            name="billing_zipcode"
+                            value="{{$billingAddress->zipcode}}"
                             placeholder="ZipCode"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                         />
@@ -86,15 +110,19 @@
                 </div>
                 <div class="grid grid-cols-2 gap-3 mb-3">
                     <div>
-                        <input
+                        <x-input
                             type="text"
+                            name="shipping_address1"
+                            value="{{$shippingAddress->address1}}"
                             placeholder="Address 1"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                         />
                     </div>
                     <div>
-                        <input
+                        <x-input
                             type="text"
+                            name="shipping_address2"
+                            value="{{$shippingAddress->address2}}"
                             placeholder="Address 2"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                         />
@@ -102,15 +130,19 @@
                 </div>
                 <div class="grid grid-cols-2 gap-3 mb-3">
                     <div>
-                        <input
+                        <x-input
                             type="text"
+                            name="shipping_city"
+                            value="{{$shippingAddress->city}}"
                             placeholder="City"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                         />
                     </div>
                     <div>
-                        <input
+                        <x-input
                             type="text"
+                            name="shipping_state"
+                            value="{{$shippingAddress->state}}"
                             placeholder="State"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                         />
@@ -118,16 +150,20 @@
                 </div>
                 <div class="grid grid-cols-2 gap-3 mb-3">
                     <div>
-                        <select class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
+                        <select name="shipping_country_code"
+                                value="{{$shippingAddress->country_code}}"
+                                class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
                             <option value="">Select Country</option>
-                            <option value="ge">Georgia</option>
-                            <option value="us">USA</option>
-                            <option value="in">India</option>
-                            <option value="de">Germany</option>
+                            @foreach($countries as $country)
+                                <option
+                                    {{$country->code === $shippingAddress->country_code ? 'selected' : ''}}  value="{{ $country->code }}">{{$country->name}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div>
-                        <input
+                        <x-input
+                            name="shipping_zipcode"
+                            value="{{$shippingAddress->zipcode}}"
                             type="text"
                             placeholder="ZipCode"
                             class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
@@ -135,32 +171,35 @@
                     </div>
                 </div>
 
-                <button class="btn-emerald w-full">Update</button>
+                <x-button class="w-full">Update</x-button>
             </div>
             <div class="bg-white p-3 shadow rounded-lg">
                 <h2 class="text-xl font-semibold mb-2">Update Password</h2>
                 <div class="mb-3">
-                    <input
+                    <x-input
                         type="password"
+                        name="old_password"
                         placeholder="Your Current Password"
                         class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                     />
                 </div>
                 <div class="mb-3">
-                    <input
+                    <x-input
                         type="password"
+                        name="new_password"
                         placeholder="New Password"
                         class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                     />
                 </div>
                 <div class="mb-3">
-                    <input
+                    <x-input
                         type="password"
+                        name="new_password_repeat"
                         placeholder="Repeat New Password"
                         class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                     />
                 </div>
-                <button class="btn-emerald">Update</button>
+                <x-button>Update</x-button>
             </div>
         </div>
     </div>
