@@ -10,6 +10,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
             <div class="bg-white p-3 shadow rounded-lg md:col-span-2">
                 <form x-data="{
+                    countries: {{ json_encode($countries) }},
                     billingAddress: {{ json_encode([
                         'address1' => old('billing.address1', $billingAddress->address1),
                         'address2' => old('billing.address2', $billingAddress->address2),
@@ -98,30 +99,32 @@
                         <div>
                             <x-input
                                 type="text"
-                                name="billing[state]"
-                                x-model="billingAddress.state"
-                                placeholder="State"
+                                name="billing[zipcode]"
+                                x-model="billingAddress.zipcode"
+                                placeholder="ZipCode"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                             />
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-3 mb-3">
                         <div>
-                            <select name="billing[country_code]"
-                                    class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
+                            <x-input type="select"
+                                     name="billing[country_code]"
+                                     x-model="billingAddress.country_code"
+                                     class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
                                 <option value="">Select Country</option>
-                                @foreach($countries as $country)
-                                    <option
-                                        {{$country->code === $billingAddress->country_code ? 'selected' : ''}} value="{{ $country->code }}">{{$country->name}}</option>
-                                @endforeach
-                            </select>
+                                <template x-for="country of countries" :key="country.code">
+                                    <option :selected="country.code === billingAddress.country_code"
+                                            :value="country.code" x-text="country.name"></option>
+                                </template>
+                            </x-input>
                         </div>
                         <div>
                             <x-input
                                 type="text"
-                                name="billing[zipcode]"
-                                value="{{$billingAddress->zipcode}}"
-                                placeholder="ZipCode"
+                                name="billing[state]"
+                                x-model="billingAddress.state"
+                                placeholder="State"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                             />
                         </div>
@@ -167,32 +170,33 @@
                         </div>
                         <div>
                             <x-input
+                                name="shipping[zipcode]"
+                                x-model="shippingAddress.zipcode"
                                 type="text"
-                                name="shipping[state]"
-                                x-model="shippingAddress.state"
-                                placeholder="State"
+                                placeholder="ZipCode"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                             />
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-3 mb-3">
                         <div>
-                            <select name="shipping[country_code]"
-                                    value="{{$shippingAddress->country_code}}"
-                                    class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
+                            <x-input type="select"
+                                     name="shipping[country_code]"
+                                     x-model="shippingAddress.country_code"
+                                     class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded">
                                 <option value="">Select Country</option>
-                                @foreach($countries as $country)
-                                    <option
-                                        {{$country->code === $shippingAddress->country_code ? 'selected' : ''}}  value="{{ $country->code }}">{{$country->name}}</option>
-                                @endforeach
-                            </select>
+                                <template x-for="country of countries" :key="country.code">
+                                    <option :selected="country.code === shippingAddress.country_code"
+                                            :value="country.code" x-text="country.name"></option>
+                                </template>
+                            </x-input>
                         </div>
                         <div>
                             <x-input
-                                name="shipping[zipcode]"
-                                x-model="shippingAddress.zipcode"
                                 type="text"
-                                placeholder="ZipCode"
+                                name="shipping[state]"
+                                x-model="shippingAddress.state"
+                                placeholder="State"
                                 class="w-full focus:border-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                             />
                         </div>
