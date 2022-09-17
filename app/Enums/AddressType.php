@@ -14,8 +14,8 @@ namespace App\Enums;
  * @author  Zura Sekhniashvili <zurasekhniashvili@gmail.com>
  * @package App\Enums
  */
-enum AddressType
+enum AddressType: string
 {
-    case Shipping;
-    case Billing;
+    case Shipping = 'shipping';
+    case Billing = 'billing';
 }
