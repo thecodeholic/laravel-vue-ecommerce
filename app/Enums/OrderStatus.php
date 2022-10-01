@@ -9,13 +9,14 @@ namespace App\Enums;
 
 
 /**
- * Class AddressType
+ * Class OrderStatus
  *
  * @author  Zura Sekhniashvili <zurasekhniashvili@gmail.com>
  * @package App\Enums
  */
-enum AddressType: string
+enum OrderStatus: string
 {
-    case Shipping = 'shipping';
-    case Billing = 'billing';
+    case Unpaid = 'unpaid';
+    case Paid = 'paid';
+    case Completed = 'complete';
 }
