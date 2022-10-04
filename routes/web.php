@@ -39,7 +39,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
     Route::get('/checkout/failure', [CheckoutController::class, 'failure'])->name('checkout.failure');
     Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
-    Route::get('/orders/view/:order', [OrderController::class, 'view'])->name('order.view');
+    Route::get('/orders/{order}', [OrderController::class, 'view'])->name('order.view');
 });
 
 Route::post('/webhook/stripe', [CheckoutController::class, 'webhook']);
