@@ -109,7 +109,7 @@ class CheckoutController extends Controller
             if (!$payment) {
                 throw new NotFoundHttpException();
             }
-            if ($payment->status === PaymentStatus::Pending) {
+            if ($payment->status === PaymentStatus::Pending->value) {
                 $this->updateOrderAndSession($payment);
             }
             $customer = \Stripe\Customer::retrieve($session->customer);
