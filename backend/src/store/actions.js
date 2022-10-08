@@ -1,6 +1,6 @@
 import axiosClient from "../axios";
 
-export function getUser({commit}, data) {
+export function getCurrentUser({commit}, data) {
   return axiosClient.get('/user', data)
     .then(({data}) => {
       commit('setUser', data);
@@ -46,6 +46,26 @@ export function getProducts({commit, state}, {url = null, search = '', per_page,
     })
 }
 
+export function getUsers({commit, state}, {url = null, search = '', per_page, sort_field, sort_direction} = {}) {
+  commit('setUsers', [true])
+  url = url || '/users'
+  const params = {
+    per_page: state.users.limit,
+  }
+  return axiosClient.get(url, {
+    params: {
+      ...params,
+      search, per_page, sort_field, sort_direction
+    }
+  })
+    .then((response) => {
+      commit('setUsers', [false, response.data])
+    })
+    .catch(() => {
+      commit('setUsers', [false])
+    })
+}
+
 export function getOrders({commit, state}, {url = null, search = '', per_page, sort_field, sort_direction} = {}) {
   commit('setOrders', [true])
   url = url || '/orders'
@@ -70,6 +90,10 @@ export function getProduct({commit}, id) {
   return axiosClient.get(`/products/${id}`)
 }
 
+export function getUser({commit}, id) {
+  return axiosClient.get(`/users/${id}`)
+}
+
 export function getOrder({commit}, id) {
   return axiosClient.get(`/orders/${id}`)
 }
@@ -84,6 +108,10 @@ export function createProduct({commit}, product) {
     product = form;
   }
   return axiosClient.post('/products', product)
+}
+
+export function createUser({commit}, user) {
+  return axiosClient.post('/users', user)
 }
 
 export function updateProduct({commit}, product) {
@@ -101,6 +129,10 @@ export function updateProduct({commit}, product) {
     product._method = 'PUT'
   }
   return axiosClient.post(`/products/${id}`, product)
+}
+
+export function updateUser({commit}, user) {
+  return axiosClient.put(`/users/${user.id}`, user)
 }
 
 export function deleteProduct({commit}, id) {

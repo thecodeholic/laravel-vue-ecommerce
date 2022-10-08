@@ -13,6 +13,16 @@ export default {
     limit: null,
     total: null
   },
+  users: {
+    loading: false,
+    data: [],
+    links: [],
+    from: null,
+    to: null,
+    page: 1,
+    limit: null,
+    total: null
+  },
   orders: {
     loading: false,
     data: [],
