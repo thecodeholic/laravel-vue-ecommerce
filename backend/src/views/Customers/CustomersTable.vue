@@ -105,12 +105,12 @@
               >
                 <div class="px-1 py-1">
                   <MenuItem v-slot="{ active }">
-                    <button
+                    <router-link
+                      :to="{name: 'app.customers.view', params: {id: customer.id}}"
                       :class="[
                         active ? 'bg-indigo-600 text-white' : 'text-gray-900',
                         'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                       ]"
-                      @click="editCustomer(customer)"
                     >
                       <PencilIcon
                         :active="active"
@@ -118,7 +118,7 @@
                         aria-hidden="true"
                       />
                       Edit
-                    </button>
+                    </router-link>
                   </MenuItem>
                   <MenuItem v-slot="{ active }">
                     <button
@@ -187,7 +187,6 @@ import {CUSTOMERS_PER_PAGE} from "../../constants";
 import TableHeaderCell from "../../components/core/Table/TableHeaderCell.vue";
 import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/vue";
 import {DotsVerticalIcon, PencilIcon, TrashIcon} from '@heroicons/vue/outline'
-import CustomerModal from "./CustomerModal.vue";
 
 const perPage = ref(CUSTOMERS_PER_PAGE);
 const search = ref('');
@@ -253,9 +252,6 @@ function deleteCustomer(customer) {
     })
 }
 
-function editCustomer(p) {
-  emit('clickEdit', p)
-}
 </script>
 
 <style scoped>

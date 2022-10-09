@@ -3,13 +3,11 @@
     <h1 class="text-3xl font-semibold">Customers</h1>
   </div>
   <CustomersTable @clickEdit="editCustomer"/>
-  <CustomerModal v-model="showCustomerModal" :customer="customerModel" @close="onModalClose"/>
 </template>
 
 <script setup>
 import {computed, onMounted, ref} from "vue";
 import store from "../../store";
-import CustomerModal from "./CustomerModal.vue";
 import CustomersTable from "./CustomersTable.vue";
 
 const DEFAULT_CUSTOMER = {
