@@ -66,7 +66,7 @@
           <OrderStatus :order="order" />
         </td>
         <td class="border-b p-2">
-          ${{ order.total_price }}
+          {{ $filters.currencyUSD(order.total_price) }}
         </td>
         <td class="border-b p-2 max-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis">
           {{ order.created_at }}
