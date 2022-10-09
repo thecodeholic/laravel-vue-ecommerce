@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\CustomerStatus;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Verified;
@@ -22,6 +23,9 @@ class VerifyEmailController extends Controller
         }
 
         if ($request->user()->markEmailAsVerified()) {
+            $customer = $request->user()->customer;
+            $customer->status = CustomerStatus::Active->value;
+            $customer->save();
             event(new Verified($request->user()));
         }
 
