@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\CustomerStatus;
 use App\Helpers\Cart;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
