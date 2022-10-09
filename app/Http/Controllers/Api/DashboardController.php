@@ -23,8 +23,7 @@ class DashboardController extends Controller
 
     public function activeProducts()
     {
-        // TODO Implement where for active products
-        return Product::count();
+        return Product::where('published', '=', 1)->count();
     }
 
     public function paidOrders()
@@ -47,7 +46,7 @@ class DashboardController extends Controller
         if ($fromDate) {
             $query->where('created_at', '>', $fromDate);
         }
-        return $query->sum('total_price');
+        return round($query->sum('total_price'));
     }
 
     public function ordersByCountry()

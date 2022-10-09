@@ -48,6 +48,7 @@
                   <CustomInput type="file" class="mb-2" label="Product Image" @change="file => product.image = file"/>
                   <CustomInput type="textarea" class="mb-2" v-model="product.description" label="Description"/>
                   <CustomInput type="number" class="mb-2" v-model="product.price" label="Price" prepend="$"/>
+                  <CustomInput type="checkbox" class="mb-2" v-model="product.published" label="Published"/>
                 </div>
                 <footer class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                   <button type="submit"
@@ -83,7 +84,8 @@ const product = ref({
   title: props.product.title,
   image: props.product.image,
   description: props.product.description,
-  price: props.product.price
+  price: props.product.price,
+  published: props.product.published
 })
 
 const loading = ref(false)
@@ -109,7 +111,8 @@ onUpdated(() => {
     title: props.product.title,
     image: props.product.image,
     description: props.product.description,
-    price: props.product.price
+    price: props.product.price,
+    published: props.product.published,
   }
 })
 
