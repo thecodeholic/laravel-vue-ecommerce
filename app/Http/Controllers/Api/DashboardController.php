@@ -10,12 +10,15 @@ use App\Http\Resources\Dashboard\OrderResource;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
+use App\Traits\ReportTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+    use ReportTrait;
+
     public function activeCustomers()
     {
         return Customer::where('status', CustomerStatus::Active->value)->count();
@@ -95,21 +98,5 @@ class DashboardController extends Controller
                 ->groupBy('o.id', 'o.total_price', 'o.created_at', 'c.user_id', 'c.first_name', 'c.last_name')
                 ->get()
         );
-    }
-
-    private function getFromDate()
-    {
-        $request = \request();
-        $paramDate = $request->get('d');
-        $array = [
-            '1d' => Carbon::now()->subDays(1),
-            '1k' => Carbon::now()->subDays(7),
-            '2k' => Carbon::now()->subDays(14),
-            '1m' => Carbon::now()->subDays(30),
-            '3m' => Carbon::now()->subDays(60),
-            '6m' => Carbon::now()->subDays(180),
-        ];
-
-        return $array[$paramDate] ?? null;
     }
 }

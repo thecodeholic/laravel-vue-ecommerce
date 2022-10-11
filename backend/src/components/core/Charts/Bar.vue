@@ -1,27 +1,17 @@
 <script>
-import { defineComponent, h } from 'vue'
+import {defineComponent, h} from 'vue'
+import {Bar} from 'vue-chartjs'
+import {Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale} from 'chart.js'
 
-import { Doughnut } from 'vue-chartjs'
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  CategoryScale
-} from 'chart.js'
-
-ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale)
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default defineComponent({
-  name: 'DoughnutChart',
-  components: {
-    Doughnut
-  },
+  name: 'BarChart',
+  components: {Bar},
   props: {
     chartId: {
       type: String,
-      default: 'doughnut-chart'
+      default: 'bar-chart'
     },
     width: {
       type: Number,
@@ -37,11 +27,13 @@ export default defineComponent({
     },
     styles: {
       type: Object,
-      default: () => {}
+      default: () => {
+      }
     },
     plugins: {
-      type: Array,
-      default: () => []
+      type: Object,
+      default: () => {
+      }
     },
     data: {
       type: Object,
@@ -49,13 +41,11 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const chartOptions = {
-      responsive: true,
-      maintainAspectRatio: false
-    }
+
+    const chartOptions = {responsive: true}
 
     return () =>
-      h(Doughnut, {
+      h(Bar, {
         chartData: props.data,
         chartOptions,
         chartId: props.chartId,
@@ -63,13 +53,8 @@ export default defineComponent({
         height: props.height,
         cssClasses: props.cssClasses,
         styles: props.styles,
-        plugins: props.plugins
+        plugins: props.plugins,
       })
   }
 })
-
 </script>
-
-<style scoped>
-
-</style>
