@@ -9,7 +9,7 @@ Make sure you have environment setup properly. You will need MySQL, PHP8.1 and c
 3. Navigate to the project's root directory using terminal
 4. Run `composer install`
 5. Set the encryption key by executing `php artisan key:generate --ansi`
-6. Run migrations `php artisan migrate`
+6. Run migrations `php artisan migrate --seed`
 7. Start local server by executing `php artisan serve`
 8. Open new terminal and navigate to the project root directory
 9. Run `npm install`
@@ -21,3 +21,8 @@ Make sure you have environment setup properly. You will need MySQL, PHP8.1 and c
 3. Copy `backend/.env.example` into `backend/.env`
 4. Make sure `VITE_API_BASE_URL` key in `backend/.env` is set to your Laravel API host (Default: http://localhost:8000)
 5. Run `npm run dev`
+6. Open Vue.js Admin Panel in browser and login with
+    ```
+    admin@example.com
+    admin123
+    ```
