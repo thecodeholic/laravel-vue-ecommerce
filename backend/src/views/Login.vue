@@ -21,8 +21,17 @@
             d="M6 18L18 6M6 6l12 12"
           />
         </svg>
-      </span>
+        </span>
       </div>
+
+      <div>
+        <h4 class="font-semibold">Demo user</h4>
+        <pre class="bg-white p-3 rounded">
+Email: <strong class="font-bold">admin@example.com</strong>
+Password: <strong class="font-bold">admin123</strong>
+</pre>
+      </div>
+
       <input type="hidden" name="remember" value="true"/>
       <div class="rounded-md shadow-sm -space-y-px">
         <div>

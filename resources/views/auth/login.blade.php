@@ -13,6 +13,14 @@
             </a>
         </p>
 
+        <h3 class="font-semibold">Demo Users</h3>  
+<pre class="bg-white p-3 rounded mb-3 text-sm">
+Email: <strong class="font-bold">user1@example.com</strong>   
+Password: <strong class="font-bold">useruser1</strong>
+
+Email: <strong class="font-bold">user2@example.com</strong>
+Password: <strong class="font-bold">useruser2</strong></pre>
+
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')"/>
 
