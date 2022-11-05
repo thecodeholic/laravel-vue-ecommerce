@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
 
 class RegisteredUserController extends Controller
 {
@@ -64,7 +65,9 @@ class RegisteredUserController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            throw $e;
+            throw ValidationException::withMessages([
+                'email' => 'There was a problem during email sending. Please try to login with existing accounts',
+            ]);
         }
 
         return redirect(RouteServiceProvider::HOME);
