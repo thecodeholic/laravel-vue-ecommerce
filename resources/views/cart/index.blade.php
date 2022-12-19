@@ -66,7 +66,6 @@
                         </div>
                     </template>
                     <!-- Product Item -->
-
                     <div class="border-t border-gray-300 pt-4">
                         <div class="flex justify-between">
                             <span class="font-semibold">Subtotal</span>
@@ -76,12 +75,25 @@
                             Shipping and taxes calculated at checkout.
                         </p>
 
-                        <form action="{{route('cart.checkout')}}" method="post">
-                            @csrf
-                            <button type="submit" class="btn-primary w-full py-3 text-lg">
+                        @if ( Auth::user()->shippingAddress != null && Auth::user()->billingAddress != null )
+                            <form action="{{route('cart.checkout')}}" method="post" >
+                                @csrf
+                                <button type="submit" class="btn-primary w-full py-3 text-lg disabled">
+                                    Proceed to Checkout
+                                </button>
+                            </form>
+                        @else
+                            <div class="flex justify-center items-center pt-2 pb-2 px-1 mb-3 rounded border border-solid border-orange-600 w-full text-lg">
+                                <svg class="h-5 w-5 fill-orange-500 mr-1"><path xmlns="http://www.w3.org/2000/svg" d="M19.64 16.36L11.53 2.3A1.85 1.85 0 0 0 10 1.21 1.85 1.85 0 0 0 8.48 2.3L.36 16.36C-.48 17.81.21 19 1.88 19h16.24c1.67 0 2.36-1.19 1.52-2.64zM11 16H9v-2h2zm0-4H9V6h2z"/></svg>
+                                <p class="text-center">
+                                    To "Proceed to Checkout" you will have to update your <b>Billing and Shipping information</b>!
+                                </p>
+                            </div>
+                            <button disabled class="btn-primary w-full py-3 text-lg">
                                 Proceed to Checkout
                             </button>
-                        </form>
+                        @endif
+
                     </div>
                 </div>
                 <!--/ Product Items -->

@@ -32,6 +32,10 @@
   .btn-primary {
     @apply text-white bg-purple-600 py-2 px-4 rounded shadow-md hover:bg-purple-700 active:bg-purple-800 transition-colors;
   }
+
+  .btn-primary:disabled {
+    @apply bg-gray-400 hover:bg-gray-300;
+  }
 }
 
 body {

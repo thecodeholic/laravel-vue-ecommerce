@@ -19,7 +19,9 @@ class CartController extends Controller
             $total += $product->price * $cartItems[$product->id]['quantity'];
         }
 
-        return view('cart.index', compact('cartItems', 'products', 'total'));
+        $user = auth()->user();
+
+        return view('cart.index', compact('cartItems', 'products', 'total', 'user'));
     }
 
     public function add(Request $request, Product $product)
