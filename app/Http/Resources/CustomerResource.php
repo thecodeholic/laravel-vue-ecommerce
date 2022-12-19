@@ -21,6 +21,30 @@ class CustomerResource extends JsonResource
     {
         $shipping = $this->shippingAddress;
         $billing = $this->billingAddress;
+
+        if($shipping) {
+            $shipping = [
+                'id' => $shipping->id,
+                'address1' => $shipping->address1,
+                'address2' => $shipping->address2,
+                'city' => $shipping->city,
+                'state' => $shipping->state,
+                'zipcode' => $shipping->zipcode,
+                'country_code' => $shipping->country->code,
+            ];
+        }
+        if($billing) {
+            $billing = [
+                'id' => $billing->id,
+                'address1' => $billing->address1,
+                'address2' => $billing->address2,
+                'city' => $billing->city,
+                'state' => $billing->state,
+                'zipcode' => $billing->zipcode,
+                'country_code' => $billing->country->code,
+            ];
+        }
+
         return [
             'id' => $this->user_id,
             'first_name' => $this->first_name,
@@ -31,24 +55,8 @@ class CustomerResource extends JsonResource
             'created_at' => (new \DateTime($this->created_at))->format('Y-m-d H:i:s'),
             'updated_at' => (new \DateTime($this->updated_at))->format('Y-m-d H:i:s'),
 
-            'shippingAddress' => [
-                'id' => $shipping->id,
-                'address1' => $shipping->address1,
-                'address2' => $shipping->address2,
-                'city' => $shipping->city,
-                'state' => $shipping->state,
-                'zipcode' => $shipping->zipcode,
-                'country_code' => $shipping->country->code,
-            ],
-            'billingAddress' => [
-                'id' => $billing->id,
-                'address1' => $billing->address1,
-                'address2' => $billing->address2,
-                'city' => $billing->city,
-                'state' => $billing->state,
-                'zipcode' => $billing->zipcode,
-                'country_code' => $billing->country->code,
-            ]
+            'shippingAddress' => $shipping,
+            'billingAddress' => $billing
         ];
     }
 }
