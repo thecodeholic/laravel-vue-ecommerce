@@ -75,7 +75,7 @@
                             Shipping and taxes calculated at checkout.
                         </p>
 
-                        @if ( Auth::user()->shippingAddress != null && Auth::user()->billingAddress != null )
+                        @if ( !Auth::check() || Auth::user()->shippingAddress != null && Auth::user()->billingAddress != null )
                             <form action="{{route('cart.checkout')}}" method="post" >
                                 @csrf
                                 <button type="submit" class="btn-primary w-full py-3 text-lg disabled">
