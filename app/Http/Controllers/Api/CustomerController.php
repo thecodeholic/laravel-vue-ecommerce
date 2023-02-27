@@ -30,6 +30,7 @@ class CustomerController extends Controller
         $sortDirection = request('sort_direction', 'desc');
 
         $query = Customer::query()
+            ->with('user')
             ->orderBy("customers.$sortField", $sortDirection)
         ;
         if ($search) {

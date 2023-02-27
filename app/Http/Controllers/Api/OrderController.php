@@ -28,6 +28,8 @@ class OrderController extends Controller
         $sortDirection = request('sort_direction', 'desc');
 
         $query = Order::query()
+            ->withCount('items')
+            ->with('user.customer')
             ->where('id', 'like', "%{$search}%")
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
