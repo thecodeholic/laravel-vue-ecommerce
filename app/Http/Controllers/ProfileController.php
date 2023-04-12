@@ -8,6 +8,7 @@ use App\Http\Requests\ProfileRequest;
 use App\Models\Country;
 use App\Models\CustomerAddress;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
@@ -23,6 +24,7 @@ class ProfileController extends Controller
         $billingAddress = $customer->billingAddress ?: new CustomerAddress(['type' => AddressType::Billing]);
 //        dd($customer, $shippingAddress->attributesToArray(), $billingAddress, $billingAddress->customer);
         $countries = Country::query()->orderBy('name')->get();
+
         return view('profile.view', compact('customer', 'user', 'shippingAddress', 'billingAddress', 'countries'));
     }
 
@@ -37,22 +39,30 @@ class ProfileController extends Controller
         /** @var \App\Models\Customer $customer */
         $customer = $user->customer;
 
-        $customer->update($customerData);
+        DB::beginTransaction();
+        try {
+            $customer->update($customerData);
 
-        if ($customer->shippingAddress) {
-            $customer->shippingAddress->update($shippingData);
-        } else {
-            $shippingData['customer_id'] = $customer->user_id;
-            $shippingData['type'] = AddressType::Shipping->value;
-            CustomerAddress::create($shippingData);
+            if ($customer->shippingAddress) {
+                $customer->shippingAddress->update($shippingData);
+            } else {
+                $shippingData['customer_id'] = $customer->user_id;
+                $shippingData['type'] = AddressType::Shipping->value;
+                CustomerAddress::create($shippingData);
+            }
+            if ($customer->billingAddress) {
+                $customer->billingAddress->update($billingData);
+            } else {
+                $billingData['customer_id'] = $customer->user_id;
+                $billingData['type'] = AddressType::Billing->value;
+                CustomerAddress::create($billingData);
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
-        if ($customer->billingAddress) {
-            $customer->billingAddress->update($billingData);
-        } else {
-            $billingData['customer_id'] = $customer->user_id;
-            $billingData['type'] = AddressType::Billing->value;
-            CustomerAddress::create($billingData);
-        }
+
+        DB::commit();
 
         $request->session()->flash('flash_message', 'Profile was successfully updated.');
 
