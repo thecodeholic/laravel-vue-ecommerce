@@ -39,6 +39,7 @@ class OrderController extends Controller
 
     public function view(Order $order)
     {
+        $order->load('items.product');
         return new OrderResource($order);
     }
 
