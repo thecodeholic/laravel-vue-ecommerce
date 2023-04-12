@@ -13,6 +13,7 @@ use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -93,6 +94,8 @@ class CheckoutController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
+
+            Log::critical(__METHOD__ . ' method does not work. '. $e->getMessage());
             throw $e;
         }
 
@@ -228,14 +231,20 @@ class CheckoutController extends Controller
             $order->update();
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::critical(__METHOD__ . ' method does not work. '. $e->getMessage());
             throw $e;
         }
 
         DB::commit();
-        $adminUsers = User::where('is_admin', 1)->get();
 
-        foreach ([...$adminUsers, $order->user] as $user) {
-            Mail::to($user)->send(new NewOrderEmail($order, (bool)$user->is_admin));
+        try {
+            $adminUsers = User::where('is_admin', 1)->get();
+
+            foreach ([...$adminUsers, $order->user] as $user) {
+                Mail::to($user)->send(new NewOrderEmail($order, (bool)$user->is_admin));
+            }
+        } catch (\Exception $e) {
+            Log::critical('Email sending does not work. '. $e->getMessage());
         }
     }
 }

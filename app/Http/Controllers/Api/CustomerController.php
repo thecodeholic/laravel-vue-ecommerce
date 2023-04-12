@@ -14,6 +14,7 @@ use App\Models\Customer;
 use App\Models\CustomerAddress;
 use http\Env\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CustomerController extends Controller
 {
@@ -92,6 +93,8 @@ class CustomerController extends Controller
             }
         } catch (\Exception $e) {
             DB::rollBack();
+
+            Log::critical(__METHOD__ . ' method does not work. '. $e->getMessage());
             throw $e;
         }
 
