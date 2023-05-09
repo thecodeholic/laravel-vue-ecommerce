@@ -14,7 +14,7 @@
           <div>
             <h2 class="text-xl font-semibold mt-6 pb-2 border-b border-gray-300">Billing Address</h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div v-if="customer.billingAddress !== null" class="grid grid-cols-1 md:grid-cols-2 gap-2">
               <CustomInput v-model="customer.billingAddress.address1" label="Address 1"/>
               <CustomInput v-model="customer.billingAddress.address2" label="Address 2"/>
               <CustomInput v-model="customer.billingAddress.city" label="City"/>
@@ -26,12 +26,15 @@
               <CustomInput v-else type="select" :select-options="billingStateOptions"
                            v-model="customer.billingAddress.state" label="State"/>
             </div>
+            <p v-else class="text-center py-8 text-gray-700">
+              There are is no billing address
+            </p>
           </div>
 
           <div>
             <h2 class="text-xl font-semibold mt-6 pb-2 border-b border-gray-300">Shipping Address</h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div v-if="customer.shippingAddress !== null" class="grid grid-cols-1 md:grid-cols-2 gap-2">
               <CustomInput v-model="customer.shippingAddress.address1" label="Address 1"/>
               <CustomInput v-model="customer.shippingAddress.address2" label="Address 2"/>
               <CustomInput v-model="customer.shippingAddress.city" label="City"/>
@@ -42,6 +45,9 @@
               <CustomInput v-else type="select" :select-options="shippingStateOptions"
                            v-model="customer.shippingAddress.state" label="State"/>
             </div>
+            <p v-else class="text-center py-8 text-gray-700">
+              There are is no shipping address
+            </p>
           </div>
         </div>
 
