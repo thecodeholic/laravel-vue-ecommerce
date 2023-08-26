@@ -58,6 +58,7 @@ class CheckoutController extends Controller
         $session = \Stripe\Checkout\Session::create([
             'line_items' => $lineItems,
             'mode' => 'payment',
+            'customer_creation' => 'always',
             'success_url' => route('checkout.success', [], true) . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('checkout.failure', [], true),
         ]);
