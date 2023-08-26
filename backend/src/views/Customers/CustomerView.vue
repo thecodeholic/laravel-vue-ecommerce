@@ -128,7 +128,7 @@ function onSubmit() {
       .then(response => {
         loading.value = false;
         if (response.status === 200) {
-          // TODO show notification
+          store.commit('showToast', 'Customer has been successfully updated');
           store.dispatch('getCustomers')
           router.push({name: 'app.customers'})
         }
