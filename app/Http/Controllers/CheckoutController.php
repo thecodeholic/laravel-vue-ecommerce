@@ -24,6 +24,11 @@ class CheckoutController extends Controller
         /** @var \App\Models\User $user */
         $user = $request->user();
 
+        $customer = $user->customer;
+        if (!$customer->billingAddress || !$customer->shippingAddress) {
+            return redirect()->route('profile')->with('error', 'Please provide your address details first.');
+        }
+
         \Stripe\Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
 
         [$products, $cartItems] = Cart::getProductsAndCartItems();
