@@ -246,7 +246,7 @@ function deleteCustomer(customer) {
   if (!confirm(`Are you sure you want to delete the customer?`)) {
     return
   }
-  store.dispatch('deleteCustomer', customer.id)
+  store.dispatch('deleteCustomer', customer)
     .then(res => {
       // TODO Show notification
       store.dispatch('getCustomers')
