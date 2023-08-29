@@ -12,6 +12,7 @@
         <CustomInput type="file" class="mb-2" label="Product Image" @change="file => product.image = file"/>
         <CustomInput type="richtext" class="mb-2" v-model="product.description" label="Description"/>
         <CustomInput type="number" class="mb-2" v-model="product.price" label="Price" prepend="$"/>
+        <CustomInput type="number" class="mb-2" v-model="product.quantity" label="Quantity"/>
         <CustomInput type="checkbox" class="mb-2" v-model="product.published" label="Published"/>
 
 
