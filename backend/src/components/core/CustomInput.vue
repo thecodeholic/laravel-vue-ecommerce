@@ -12,7 +12,7 @@
                 :value="props.modelValue"
                 :class="inputClasses"
                 @change="onChange($event.target.value)">
-          <option v-for="option of selectOptions" :value="option.key">{{option.text}}</option>
+          <option v-for="option of selectOptions" :value="option.key">{{ option.text }}</option>
         </select>
       </template>
       <template v-else-if="type === 'textarea'">
@@ -22,6 +22,15 @@
                 @input="emit('update:modelValue', $event.target.value)"
                 :class="inputClasses"
                 :placeholder="label"></textarea>
+      </template>
+      <template v-else-if="type === 'richtext'">
+        <ckeditor :name="name"
+                  :required="required"
+                  :editor="editor"
+                  :model-value="props.modelValue"
+                  @input="onChange"
+                  :class="inputClasses"
+                  :config="props.editorConfig"></ckeditor>
       </template>
       <template v-else-if="type === 'file'">
         <input :type="type"
@@ -57,13 +66,16 @@
         {{ append }}
       </span>
     </div>
-    <small v-if="errors && errors[0]" class="text-red-600">{{errors[0]}}</small>
+    <small v-if="errors && errors[0]" class="text-red-600">{{ errors[0] }}</small>
   </div>
 </template>
 
 <script setup>
 
 import {computed, ref} from "vue";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
+const editor = ClassicEditor
 
 const props = defineProps({
   modelValue: [String, Number, File],
@@ -86,7 +98,14 @@ const props = defineProps({
   errors: {
     type: Array,
     required: false
-  }
+  },
+  editorConfig: {
+    type: Object,
+    default: () => ({
+      // toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList'],
+    })
+  },
+
 })
 
 const id = computed(() => {
@@ -121,5 +140,11 @@ function onChange(value) {
 </script>
 
 <style scoped>
+/deep/ .ck.ck-editor {
+  width: 100%;
+}
 
+/deep/ .ck-content {
+  min-height: 200px;
+}
 </style>
