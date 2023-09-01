@@ -55,6 +55,11 @@ class CheckoutController extends Controller
                 'quantity' => $quantity,
                 'unit_price' => $product->price
             ];
+
+            if ($product->quantity !== null) {
+                $product->quantity -= $quantity;
+                $product->save();
+            }
         }
 //        dd(route('checkout.failure', [], true));
 

@@ -5,6 +5,7 @@
                     'image' => $product->image,
                     'title' => $product->title,
                     'price' => $product->price,
+                    'quantity' => $product->quantity,
                     'addToCartUrl' => route('cart.add', $product)
                 ]) }})" class="container mx-auto">
         <div class="grid gap-6 grid-cols-1 lg:grid-cols-5">
@@ -96,6 +97,11 @@
                     {{$product->title}}
                 </h1>
                 <div class="text-xl font-bold mb-6">${{$product->price}}</div>
+                @if ($product->quantity === 0)
+                    <div class="bg-red-400 text-white py-2 px-3 rounded mb-3">
+                        The product is out of stock
+                    </div>
+                @endif
                 <div class="flex items-center justify-between mb-5">
                     <label for="quantity" class="block font-bold mr-4">
                         Quantity
@@ -110,8 +116,10 @@
                     />
                 </div>
                 <button
+                    :disabled="product.quantity === 0"
                     @click="addToCart($refs.quantityEl.value)"
                     class="btn-primary py-4 text-lg flex justify-center min-w-0 w-full mb-6"
+                    :class="product.quantity === 0 ? 'cursor-not-allowed' : 'cursor-pointer'"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
