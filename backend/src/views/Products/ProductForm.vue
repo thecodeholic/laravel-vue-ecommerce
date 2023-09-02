@@ -1,21 +1,28 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <div id="product-form">
+  <div class="relative">
     <div class="flex items-center justify-between mb-3">
-      <h1 class="text-3xl font-semibold">{{ product.id ? `Update product: "${product.title}"` : 'Create new Product' }}</h1>
+      <h1 class="text-3xl font-semibold">{{
+          product.id ? `Update product: "${product.title}"` : 'Create new Product'
+        }}</h1>
     </div>
     <Spinner v-if="loading"
              class="p-5 z-[100] absolute left-0 top-0 bg-white right-0 bottom-0 flex items-center justify-center"/>
-    <form @submit.prevent="onSubmit">
-      <div class="bg-white px-4 pt-5 pb-4 z-50">
-        <CustomInput class="mb-2" v-model="product.title" label="Product Title"/>
-        <CustomInput type="file" class="mb-2" label="Product Image" @change="file => product.image = file"/>
-        <CustomInput type="richtext" class="mb-2" v-model="product.description" label="Description"/>
-        <CustomInput type="number" class="mb-2" v-model="product.price" label="Price" prepend="$"/>
-        <CustomInput type="number" class="mb-2" v-model="product.quantity" label="Quantity"/>
-        <CustomInput type="checkbox" class="mb-2" v-model="product.published" label="Published"/>
-
-
+    <form v-if="!loading" @submit.prevent="onSubmit">
+      <div class="bg-white px-4 pt-5 pb-4 z-50 grid grid-cols-3 gap-3">
+        <div class="col-span-1 sm:col-span-2 order-2 md:order-1 ">
+          <CustomInput class="mb-2" v-model="product.title" label="Product Title"/>
+          <CustomInput type="richtext" class="mb-2" v-model="product.description" label="Description"/>
+          <CustomInput type="number" class="mb-2" v-model="product.price" label="Price" prepend="$"/>
+          <CustomInput type="number" class="mb-2" v-model="product.quantity" label="Quantity"/>
+          <CustomInput type="checkbox" class="mb-2" v-model="product.published" label="Published"/>
+        </div>
+        <div class="col-span-1 order-1 md:order-2">
+          <image-preview v-model="product.images"
+                         v-model:deleted-images="product.deleted_images"
+                         :images="product.images"
+          />
+        </div>
       </div>
       <footer class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
         <button type="submit"
@@ -44,11 +51,13 @@ import CustomInput from "../../components/core/CustomInput.vue";
 import store from "../../store/index.js";
 import Spinner from "../../components/core/Spinner.vue";
 import {useRoute, useRouter} from "vue-router";
+import ImagePreview from "../../components/core/ImagePreview.vue";
 
 const product = ref({
   id: null,
   title: null,
-  image: null,
+  images: [],
+  deleted_images: [],
   description: '',
   price: null,
   published: null
@@ -64,8 +73,8 @@ onMounted(() => {
     loading.value = true
     store.dispatch('getProduct', route.params.id)
       .then(({data}) => {
-        loading.value = false
         product.value = data
+        loading.value = false
       })
   }
 })
@@ -75,6 +84,7 @@ function onSubmit(event, close = false) {
   if (product.value.id) {
     store.dispatch('updateProduct', product.value)
       .then(response => {
+        product.value = response.data
         loading.value = false;
         if (response.status === 200) {
           store.commit('showToast', 'Product was successfully updated')
@@ -87,6 +97,7 @@ function onSubmit(event, close = false) {
   } else {
     store.dispatch('createProduct', product.value)
       .then(response => {
+        product.value = response.data
         loading.value = false;
         if (response.status === 201) {
           store.commit('showToast', 'Product was successfully created')
@@ -103,7 +114,4 @@ function onSubmit(event, close = false) {
 }
 </script>
 <style>
-#product-form {
-  position: relative;
-}
 </style>
