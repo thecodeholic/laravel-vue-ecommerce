@@ -12,7 +12,7 @@
             <div class="lg:col-span-3">
                 <div
                     x-data="{
-                      images: ['{{$product->image}}'],
+                      images: {{$product->images->map(fn($im) => $im->url)}},
                       activeImage: null,
                       prev() {
                           let index = this.images.indexOf(this.activeImage);

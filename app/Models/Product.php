@@ -35,4 +35,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class)->orderBy('position');
     }
+
+    public function getImageAttribute()
+    {
+        return $this->images->count() > 0 ? $this->images->get(0)->url : null;
+    }
 }
