@@ -16,10 +16,12 @@ class ProductListResource extends JsonResource
      */
     public function toArray($request)
     {
+        /** @var \Illuminate\Support\Collection $images */
+        $images = $this->images;
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'image_url' => !empty($this->images) ? $this->images[0]->url : null,
+            'image_url' => $images->count() > 0 ? $images->get(0)->url : null,
             'price' => $this->price,
             'quantity' => $this->quantity,
             'updated_at' => ( new \DateTime($this->updated_at) )->format('Y-m-d H:i:s'),
