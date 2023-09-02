@@ -60,7 +60,8 @@
       <tr v-for="(product, index) of products.data">
         <td class="border-b p-2 ">{{ product.id }}</td>
         <td class="border-b p-2 ">
-          <img class="w-16 h-16 object-cover" :src="product.image_url" :alt="product.title">
+          <img v-if="product.image_url" class="w-16 h-16 object-cover" :src="product.image_url" :alt="product.title" />
+          <img v-else class="w-16 h-16 object-cover" src="../../assets/noimage.jpg" />
         </td>
         <td class="border-b p-2 max-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis">
           {{ product.title }}
