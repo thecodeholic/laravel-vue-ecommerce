@@ -68,13 +68,15 @@ return new class extends Migration {
                         ->select(['product_id', 'url', 'mime', 'size'])
                         ->where('product_id', $product->id)
                         ->first();
-                    DB::table('products')
-                        ->where('id', $image->product_id)
-                        ->update([
-                            'image' => $image->url,
-                            'image_mime' => $image->mime,
-                            'image_size' => $image->size
-                        ]);
+                    if ($image) {
+                        DB::table('products')
+                            ->where('id', $image->product_id)
+                            ->update([
+                                'image' => $image->url,
+                                'image_mime' => $image->mime,
+                                'image_size' => $image->size
+                            ]);
+                    }
                 }
             });
 
