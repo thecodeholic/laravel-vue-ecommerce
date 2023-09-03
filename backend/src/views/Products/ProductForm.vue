@@ -19,6 +19,7 @@
         </div>
         <div class="col-span-1 order-1 md:order-2">
           <image-preview v-model="product.images"
+                         v-model:image-positions="product.image_positions"
                          v-model:deleted-images="product.deleted_images"
                          :images="product.images"
           />
@@ -57,6 +58,7 @@ const product = ref({
   id: null,
   title: null,
   images: [],
+  image_positions: [],
   deleted_images: [],
   description: '',
   price: null,

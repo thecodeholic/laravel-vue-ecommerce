@@ -13,7 +13,7 @@ const app = createApp(App);
 app
   .use(store)
   .use(router)
-  .use( CKEditor )
+  .use(CKEditor)
   .mount('#app')
 ;
 
