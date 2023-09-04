@@ -38,18 +38,42 @@ body {
   background-color: #e5e7eb;
 }
 
-.wysiwyg-content h3,
-.wysiwyg-content h4 {
-  font-weight: 600;
-  margin-top: 1rem;
+
+.wysiwyg-content > blockquote,
+.wysiwyg-content > dl,
+.wysiwyg-content > dd,
+.wysiwyg-content > h1,
+.wysiwyg-content > h2,
+.wysiwyg-content > h3,
+.wysiwyg-content > h4,
+.wysiwyg-content > h5,
+.wysiwyg-content > h6,
+.wysiwyg-content > hr,
+.wysiwyg-content > figure,
+.wysiwyg-content > p,
+.wysiwyg-content > pre {
+  margin: revert;
 }
 
-.wysiwyg-content table > tbody > tr > td {
-  padding: 0.25rem 0.125rem;
+.wysiwyg-content > ol,
+.wysiwyg-content > ul {
+  list-style: revert;
+  margin: revert;
+  padding: revert;
 }
 
-.wysiwyg-content table > tbody > tr > td:first-child {
-  font-weight: bold;
+.wysiwyg-content > table {
+  border-collapse: revert;
+}
+
+.wysiwyg-content > h1,
+.wysiwyg-content > h2,
+.wysiwyg-content > h3,
+.wysiwyg-content > h4,
+.wysiwyg-content > h5,
+.wysiwyg-content > h6 {
+  font-size: revert;
+  font-weight: revert;
 }
 
 .table > tbody > tr > td,
