@@ -104,6 +104,9 @@ function onSubmit(event, close = false) {
           store.dispatch('getProducts')
           if (close) {
             router.push({name: 'app.products'})
+          } else {
+            product.value = response.data
+            router.push({name: 'app.products.edit', params: {id: response.data.id}})
           }
         }
       })
