@@ -143,7 +143,7 @@
                         x-collapse.min.120px
                         class="text-gray-500 wysiwyg-content"
                     >
-                        {{ $product->description }}
+                        {!! $product->description !!}
                     </div>
                     <p class="text-right">
                         <a
