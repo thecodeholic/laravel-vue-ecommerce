@@ -126,7 +126,7 @@ class ProductController extends Controller
             if (!Storage::putFileAS('public/' . $path, $image, $image->getClientOriginalName())) {
                 throw new \Exception("Unable to save file \"{$image->getClientOriginalName()}\"");
             }
-            $relativePath = $path . '/' . $image->getClientOriginalName();
+            $relativePath = $path . '/' . urlencode($image->getClientOriginalName());
 
             ProductImage::create([
                 'product_id' => $product->id,
