@@ -1,6 +1,5 @@
 import {createApp} from 'vue'
-import CKEditor from '@ckeditor/ckeditor5-vue';
-
+import CKEditor from '@ckeditor/ckeditor5-vue'
 import store from './store'
 import router from './router'
 import './index.css';

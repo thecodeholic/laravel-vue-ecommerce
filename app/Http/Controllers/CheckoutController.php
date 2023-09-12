@@ -36,6 +36,21 @@ class CheckoutController extends Controller
         $orderItems = [];
         $lineItems = [];
         $totalPrice = 0;
+
+        DB::beginTransaction();
+
+        foreach ($products as $product) {
+            $quantity = $cartItems[$product->id]['quantity'];
+            if ($product->quantity !== null && $product->quantity < $quantity) {
+                $message = match ($product->quantity) {
+                    0 => 'The product "'.$product->title.'" is out of stock',
+                    1 => 'There is only one item left for product "'.$product->title,
+                    default => 'There are only ' . $product->quantity . ' items left for product "'.$product->title,
+                };
+                return redirect()->back()->with('error', $message);
+            }
+        }
+
         foreach ($products as $product) {
             $quantity = $cartItems[$product->id]['quantity'];
             $totalPrice += $product->price * $quantity;
@@ -73,7 +88,6 @@ class CheckoutController extends Controller
             'cancel_url' => route('checkout.failure', [], true),
         ]);
 
-        DB::beginTransaction();
         try {
 
             // Create Order
