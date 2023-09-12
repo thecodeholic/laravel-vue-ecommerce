@@ -11,7 +11,7 @@
           <option value="50">50</option>
           <option value="100">100</option>
         </select>
-        <span class="ml-3">Found {{products.total}} products</span>
+        <span class="ml-3">Found {{ products.total }} products</span>
       </div>
       <div>
         <input v-model="search" @change="getProducts(null)"
@@ -37,6 +37,10 @@
                          @click="sortProducts('price')">
           Price
         </TableHeaderCell>
+        <TableHeaderCell field="quantity" :sort-field="sortField" :sort-direction="sortDirection"
+                         @click="sortProducts('quantity')">
+          Quantity
+        </TableHeaderCell>
         <TableHeaderCell field="updated_at" :sort-field="sortField" :sort-direction="sortDirection"
                          @click="sortProducts('updated_at')">
           Last Updated At
@@ -60,14 +64,17 @@
       <tr v-for="(product, index) of products.data">
         <td class="border-b p-2 ">{{ product.id }}</td>
         <td class="border-b p-2 ">
-          <img v-if="product.image_url" class="w-16 h-16 object-cover" :src="product.image_url" :alt="product.title" />
-          <img v-else class="w-16 h-16 object-cover" src="../../assets/noimage.jpg" />
+          <img v-if="product.image_url" class="w-16 h-16 object-cover" :src="product.image_url" :alt="product.title">
+          <img v-else class="w-16 h-16 object-cover" src="../../assets/noimage.png">
         </td>
         <td class="border-b p-2 max-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis">
           {{ product.title }}
         </td>
         <td class="border-b p-2">
           {{ $filters.currencyUSD(product.price) }}
+        </td>
+        <td class="border-b p-2">
+          {{ product.quantity }}
         </td>
         <td class="border-b p-2 ">
           {{ product.updated_at }}

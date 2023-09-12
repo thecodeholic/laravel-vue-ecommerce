@@ -1,7 +1,7 @@
 <template>
   <div>
     <label class="sr-only">{{ label }}</label>
-    <div class="mt-1 flex rounded-md">
+    <div class="mt-1 flex rounded-md shadow-sm">
       <span v-if="prepend"
             class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
         {{ prepend }}
@@ -24,13 +24,12 @@
                 :placeholder="label"></textarea>
       </template>
       <template v-else-if="type === 'richtext'">
-        <ckeditor :name="name"
+        <ckeditor :editor="editor"
                   :required="required"
-                  :editor="editor"
                   :model-value="props.modelValue"
                   @input="onChange"
                   :class="inputClasses"
-                  :config="props.editorConfig"></ckeditor>
+                  :config="editorConfig"></ckeditor>
       </template>
       <template v-else-if="type === 'file'">
         <input :type="type"
@@ -75,7 +74,7 @@
 import {computed, ref} from "vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-const editor = ClassicEditor
+const editor = ClassicEditor;
 
 const props = defineProps({
   modelValue: [String, Number, File],
@@ -101,11 +100,8 @@ const props = defineProps({
   },
   editorConfig: {
     type: Object,
-    default: () => ({
-      // toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList'],
-    })
-  },
-
+    default: () => ({})
+  }
 })
 
 const id = computed(() => {
@@ -140,7 +136,7 @@ function onChange(value) {
 </script>
 
 <style scoped>
-/deep/ .ck.ck-editor {
+/deep/ .ck-editor {
   width: 100%;
 }
 

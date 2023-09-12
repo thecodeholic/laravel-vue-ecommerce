@@ -101,8 +101,8 @@ export function updateProduct({commit}, product) {
     form.append('id', product.id);
     form.append('title', product.title);
     product.images.forEach(im => form.append('images[]', im))
-    if (product.deletedImages) {
-      product.deletedImages.forEach(im => form.append('deleted_images[]', im))
+    if (product.deleted_images) {
+      product.deleted_images.forEach(id => form.append('deleted_images[]', id))
     }
     form.append('description', product.description || '');
     form.append('published', product.published ? 1 : 0);
@@ -114,7 +114,6 @@ export function updateProduct({commit}, product) {
   }
   return axiosClient.post(`/products/${id}`, product)
 }
-
 
 export function deleteProduct({commit}, id) {
   return axiosClient.delete(`/products/${id}`)
@@ -183,4 +182,5 @@ export function updateCustomer({commit}, customer) {
 export function deleteCustomer({commit}, customer) {
   return axiosClient.delete(`/customers/${customer.id}`)
 }
+
 
