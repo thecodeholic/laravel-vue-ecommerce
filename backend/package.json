@@ -12,6 +12,8 @@
     "@ckeditor/ckeditor5-vue": "^5.1.0",
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
+    "sortablejs": "^1.15.0",
+    "sortablejs-vue3": "^1.2.9",
     "uuid": "^9.0.0",
     "vue": "^3.2.25",
     "vue-chartjs": "^4.1.2",

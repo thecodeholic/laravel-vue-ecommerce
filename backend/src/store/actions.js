@@ -100,9 +100,12 @@ export function updateProduct({commit}, product) {
     const form = new FormData();
     form.append('id', product.id);
     form.append('title', product.title);
-    product.images.forEach(im => form.append('images[]', im))
+    product.images.forEach(im => form.append(`images[${im.id}]`, im))
     if (product.deleted_images) {
       product.deleted_images.forEach(id => form.append('deleted_images[]', id))
+    }
+    for (let id in product.image_positions) {
+      form.append(`image_positions[${id}]`, product.image_positions[id])
     }
     form.append('description', product.description || '');
     form.append('published', product.published ? 1 : 0);

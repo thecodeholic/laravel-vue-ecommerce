@@ -20,7 +20,8 @@
         <div class="col-span-1 px-4 pt-5 pb-4">
           <image-preview v-model="product.images"
                          :images="product.images"
-                         v-model:deleted-images="product.deleted_images" />
+                         v-model:deleted-images="product.deleted_images"
+                          v-model:image-positions="product.image_positions"/>
         </div>
       </div>
       <footer class="bg-gray-50 rounded-b-lg px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -61,6 +62,7 @@ const product = ref({
   title: null,
   images: [],
   deleted_images: [],
+  image_positions: {},
   description: '',
   price: null,
   quantity: null,

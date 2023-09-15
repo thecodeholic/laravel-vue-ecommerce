@@ -50,10 +50,11 @@ class ProductController extends Controller
 
         /** @var \Illuminate\Http\UploadedFile[] $images */
         $images = $data['images'] ?? [];
+        $imagePositions = $data['image_positions'] ?? [];
 
         $product = Product::create($data);
 
-        $this->saveImages($images, $product);
+        $this->saveImages($images, $imagePositions, $product);
 
         return new ProductResource($product);
     }
@@ -84,8 +85,9 @@ class ProductController extends Controller
         /** @var \Illuminate\Http\UploadedFile[] $images */
         $images = $data['images'] ?? [];
         $deletedImages = $data['deleted_images'] ?? [];
+        $imagePositions = $data['image_positions'] ?? [];
 
-        $this->saveImages($images, $product);
+        $this->saveImages($images, $imagePositions, $product);
         if (count($deletedImages) > 0) {
             $this->deleteImages($deletedImages, $product);
         }
@@ -116,9 +118,15 @@ class ProductController extends Controller
      * @throws \Exception
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
      */
-    private function saveImages($images, Product $product)
+    private function saveImages($images, $positions, Product $product)
     {
-        foreach ($images as $i => $image) {
+        foreach ($positions as $id => $position) {
+            ProductImage::query()
+                ->where('id', $id)
+                ->update(['position' => $position]);
+        }
+
+        foreach ($images as $id => $image) {
             $path = 'images/' . Str::random();
             if (!Storage::exists($path)) {
                 Storage::makeDirectory($path, 0755, true);
@@ -135,7 +143,7 @@ class ProductController extends Controller
                 'url' => URL::to(Storage::url($relativePath)),
                 'mime' => $image->getClientMimeType(),
                 'size' => $image->getSize(),
-                'position' => $i + 1
+                'position' => $positions[$id]
             ]);
         }
     }
