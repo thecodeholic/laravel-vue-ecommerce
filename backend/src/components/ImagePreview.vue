@@ -3,9 +3,12 @@
     <div v-for="image of imageUrls"
          class="relative w-[120px] h-[120px] rounded border border-dashed flex items-center justify-center hover:border-purple-500 overflow-hidden">
       <img :src="image.url" class="max-w-full max-h-full" :class="image.deleted ? 'opacity-50' : ''">
-      <span v-if="image.deleted" class="absolute left-0 bottom-0 right-0 py-1 px-2 bg-black w-100 text-white text-center flex">
+      <small v-if="image.deleted" class="absolute left-0 bottom-0 right-0 py-1 px-2 bg-black w-100 text-white justify-between items-center flex">
         To be deleted
-      </span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 cursor-pointer" @click="revertImage(image)">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+        </svg>
+      </small>
       <span class="absolute top-1 right-1 cursor-pointer" @click="removeImage(image)">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
           <path
@@ -83,6 +86,15 @@ function removeImage(image) {
     imageUrls.value = imageUrls.value.filter(f => f.id !== image.id)
 
     emit('update:modelValue', files.value)
+  }
+}
+
+function revertImage(image){
+  if (image.isProp) {
+    deletedImages.value = deletedImages.value.filter(id => id !== image.id)
+    image.deleted = false;
+
+    emit('update:deletedImages', deletedImages.value)
   }
 }
 
