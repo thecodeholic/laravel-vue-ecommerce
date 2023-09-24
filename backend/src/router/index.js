@@ -16,6 +16,7 @@ import Report from "../views/Reports/Report.vue";
 import OrdersReport from "../views/Reports/OrdersReport.vue";
 import CustomersReport from "../views/Reports/CustomersReport.vue";
 import ProductForm from "../views/Products/ProductForm.vue";
+import Categories from "../views/Categories/Categories.vue";
 
 const routes = [
   {
@@ -40,6 +41,11 @@ const routes = [
         path: 'products',
         name: 'app.products',
         component: Products
+      },
+      {
+        path: 'categories',
+        name: 'app.categories',
+        component: Categories
       },
       {
         path: 'products/create',
