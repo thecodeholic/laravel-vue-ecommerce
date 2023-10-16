@@ -40,4 +40,9 @@ class Product extends Model
     {
         return $this->images->count() > 0 ? $this->images->get(0)->url : null;
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'product_categories');
+    }
 }
