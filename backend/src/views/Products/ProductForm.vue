@@ -11,12 +11,12 @@
     <form v-if="!loading" @submit.prevent="onSubmit">
       <div class="grid grid-cols-3">
         <div class="col-span-2 px-4 pt-5 pb-4">
-          <CustomInput class="mb-2" v-model="product.title" label="Product Title"/>
-          <CustomInput type="richtext" class="mb-2" v-model="product.description" label="Description"/>
-          <CustomInput type="number" class="mb-2" v-model="product.price" label="Price" prepend="$"/>
-          <CustomInput type="number" class="mb-2" v-model="product.quantity" label="Quantity"/>
-          <CustomInput type="checkbox" class="mb-2" v-model="product.published" label="Published"/>
-          <treeselect v-model="product.categories" :multiple="true" :options="options"/>
+          <CustomInput class="mb-2" v-model="product.title" label="Product Title" :errors="errors['title']"/>
+          <CustomInput type="richtext" class="mb-2" v-model="product.description" label="Description" :errors="errors['description']"/>
+          <CustomInput type="number" class="mb-2" v-model="product.price" label="Price" prepend="$" :errors="errors['price']"/>
+          <CustomInput type="number" class="mb-2" v-model="product.quantity" label="Quantity" :errors="errors['quantity']"/>
+          <CustomInput type="checkbox" class="mb-2" v-model="product.published" label="Published" :errors="errors['published']"/>
+          <treeselect v-model="product.categories" :multiple="true" :options="options" :errors="errors['categories']"/>
         </div>
         <div class="col-span-1 px-4 pt-5 pb-4">
           <image-preview v-model="product.images"
@@ -72,9 +72,11 @@ const product = ref({
   description: '',
   price: null,
   quantity: null,
-  published: null,
+  published: false,
   categories: []
 })
+
+const errors = ref({});
 
 const loading = ref(false)
 const options = ref([])
@@ -99,6 +101,7 @@ onMounted(() => {
 
 function onSubmit($event, close = false) {
   loading.value = true
+  errors.value = {};
   product.value.quantity = product.value.quantity || null
   if (product.value.id) {
     store.dispatch('updateProduct', product.value)
@@ -112,6 +115,10 @@ function onSubmit($event, close = false) {
             router.push({name: 'app.products'})
           }
         }
+      })
+      .catch(err => {
+        loading.value = false;
+        errors.value = err.response.data.errors
       })
   } else {
     store.dispatch('createProduct', product.value)
@@ -131,7 +138,7 @@ function onSubmit($event, close = false) {
       })
       .catch(err => {
         loading.value = false;
-        debugger;
+        errors.value = err.response.data.errors
       })
   }
 }
