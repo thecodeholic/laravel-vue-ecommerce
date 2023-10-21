@@ -39,6 +39,15 @@ class Category extends Model
         return self::buildCategoryTree($categories, null, $resourceClassName);
     }
 
+    public static function getAllChildrenByParent(Category $category)
+    {
+        $categories = Category::where('active', true)->orderBy('parent_id')->get();
+        $result[] = $category;
+        self::getCategoriesArray($categories, $category->id, $result);
+
+        return $result;
+    }
+
     private static function buildCategoryTree($categories, $parentId = null, $resourceClassName = null)
     {
         $categoryTree = [];
@@ -54,5 +63,15 @@ class Category extends Model
         }
 
         return $categoryTree;
+    }
+
+    private static function getCategoriesArray($categories, $parentId, &$result)
+    {
+        foreach ($categories as $category) {
+            if ($category->parent_id === $parentId) {
+                $result[] = $category;
+                self::getCategoriesArray($categories, $category->id, $result);
+            }
+        }
     }
 }
