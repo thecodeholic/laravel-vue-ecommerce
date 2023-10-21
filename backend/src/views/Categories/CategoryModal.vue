@@ -115,6 +115,11 @@ const parentCategories = computed(() => {
         return true;
       })
       .map(c => ({key: c.id, text: c.name}))
+      .sort((c1, c2) => {
+        if (c1.text < c2.text) return -1;
+        if (c1.text > c2.text) return 1;
+        return 0;
+      })
   ]
 })
 

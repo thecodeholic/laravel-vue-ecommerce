@@ -14,7 +14,7 @@
           ID
         </TableHeaderCell>
         <TableHeaderCell field="name" :sort-field="sortField" :sort-direction="sortDirection"
-                         @click="sortCategories('email')">
+                         @click="sortCategories('name')">
           Name
         </TableHeaderCell>
         <TableHeaderCell field="slug" :sort-field="sortField" :sort-direction="sortDirection"
@@ -143,8 +143,8 @@ import {DotsVerticalIcon, PencilIcon, TrashIcon} from '@heroicons/vue/outline'
 import CategoryModal from "./CategoryModal.vue";
 
 const categories = computed(() => store.state.categories);
-const sortField = ref('updated_at');
-const sortDirection = ref('desc')
+const sortField = ref('name');
+const sortDirection = ref('asc')
 
 const category = ref({})
 const showCategoryModal = ref(false);
