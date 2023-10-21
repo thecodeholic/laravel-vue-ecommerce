@@ -20,7 +20,7 @@ $categoryList = \App\Models\Category::getActiveAsTree();
                     x-data="productItem({{ json_encode([
                         'id' => $product->id,
                         'slug' => $product->slug,
-                        'image' => $product->image,
+                        'image' => $product->image ?: '/img/noimage.png',
                         'title' => $product->title,
                         'price' => $product->price,
                         'addToCartUrl' => route('cart.add', $product)
@@ -30,7 +30,7 @@ $categoryList = \App\Models\Category::getActiveAsTree();
                     <a href="{{ route('product.view', $product->slug) }}"
                        class="aspect-w-3 aspect-h-2 block overflow-hidden">
                         <img
-                            src="{{ $product->image }}"
+                            :src="product.image"
                             alt=""
                             class="object-cover rounded-lg hover:scale-105 hover:rotate-1 transition-transform"
                         />

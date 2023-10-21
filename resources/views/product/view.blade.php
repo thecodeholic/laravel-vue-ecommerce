@@ -2,7 +2,7 @@
     <div  x-data="productItem({{ json_encode([
                     'id' => $product->id,
                     'slug' => $product->slug,
-                    'image' => $product->image,
+                    'image' => $product->image ?: '/img/noimage.png',
                     'title' => $product->title,
                     'price' => $product->price,
                     'quantity' => $product->quantity,
@@ -12,7 +12,8 @@
             <div class="lg:col-span-3">
                 <div
                     x-data="{
-                      images: {{$product->images->map(fn($im) => $im->url)}},
+                      images: {{$product->images->count() ?
+                 $product->images->map(fn($im) => $im->url) : json_encode(['/img/noimage.png'])}},
                       activeImage: null,
                       prev() {
                           let index = this.images.indexOf(this.activeImage);
