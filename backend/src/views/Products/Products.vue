@@ -7,40 +7,16 @@
       Add new Product
     </router-link>
   </div>
-  <ProductsTable @clickEdit="editProduct"/>
-  <ProductModal v-model="showProductModal" :product="productModel" @close="onModalClose"/>
+  <ProductsTable/>
 </template>
 
 <script setup>
-import {computed, onMounted, ref} from "vue";
+import {computed} from "vue";
 import store from "../../store";
-import ProductModal from "./ProductModal.vue";
 import ProductsTable from "./ProductsTable.vue";
-
-const DEFAULT_PRODUCT = {
-  id: '',
-  title: '',
-  description: '',
-  image: '',
-  price: ''
-}
 
 const products = computed(() => store.state.products);
 
-const productModel = ref({...DEFAULT_PRODUCT})
-const showProductModal = ref(false);
-
-
-function editProduct(p) {
-  store.dispatch('getProduct', p.id)
-    .then(({data}) => {
-      productModel.value = data
-    })
-}
-
-function onModalClose() {
-  productModel.value = {...DEFAULT_PRODUCT}
-}
 </script>
 
 <style scoped>
