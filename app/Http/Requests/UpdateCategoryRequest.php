@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCategoryRequest extends FormRequest
@@ -23,7 +24,20 @@ class UpdateCategoryRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'parent_id' => ['nullable', 'exists:categories,id'],
+            'parent_id' => [
+                'nullable', 'exists:categories,id',
+                function(string $attribute, $value, \Closure $fail) {
+                    $id = $this->get('id');
+                    $category = Category::where('id', $id)->first();
+
+                    $children = Category::getAllChildrenByParent($category);
+                    $ids = array_map(fn($c) => $c->id, $children);
+
+                    if (in_array($value, $ids)) {
+                        return $fail('You cannot choose category as parent which is already a child of the category.');
+                    }
+                }
+            ],
             'active' => ['required', 'boolean']
         ];
     }

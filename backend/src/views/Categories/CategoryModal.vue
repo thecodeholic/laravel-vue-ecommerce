@@ -44,13 +44,13 @@
               </header>
               <form @submit.prevent="onSubmit">
                 <div class="bg-white px-4 pt-5 pb-4">
-                  <CustomInput class="mb-2" v-model="category.name" label="Name"/>
+                  <CustomInput class="mb-2" v-model="category.name" label="Name" :errors="errors['name']"/>
                   <CustomInput type="select"
                                :select-options="parentCategories"
                                class="mb-2"
                                v-model="category.parent_id"
-                               label="Parent"/>
-                  <CustomInput type="checkbox" class="mb-2" v-model="category.active" label="Active"/>
+                               label="Parent" :errors="errors['parent_id']"/>
+                  <CustomInput type="checkbox" class="mb-2" v-model="category.active" label="Active"  :errors="errors['active']"/>
                 </div>
                 <footer class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                   <button type="submit"
@@ -89,6 +89,7 @@ const category = ref({
 })
 
 const loading = ref(false)
+const errors = ref({})
 
 const props = defineProps({
   modelValue: Boolean,
@@ -135,6 +136,7 @@ onUpdated(() => {
 function closeModal() {
   show.value = false
   emit('close')
+  errors.value = {};
 }
 
 function onSubmit() {
@@ -150,6 +152,10 @@ function onSubmit() {
           closeModal()
         }
       })
+      .catch(err => {
+        loading.value = false;
+        errors.value = err.response.data.errors
+      })
   } else {
     store.dispatch('createCategory', category.value)
       .then(response => {
@@ -162,7 +168,7 @@ function onSubmit() {
       })
       .catch(err => {
         loading.value = false;
-        debugger;
+        errors.value = err.response.data.errors
       })
   }
 }
