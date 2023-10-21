@@ -156,7 +156,7 @@ class ProductController extends Controller
                 'url' => URL::to(Storage::url($relativePath)),
                 'mime' => $image->getClientMimeType(),
                 'size' => $image->getSize(),
-                'position' => $positions[$id]
+                'position' => $positions[$id] ?? $id + 1
             ]);
         }
     }
