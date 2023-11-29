@@ -11,7 +11,7 @@
           <option value="50">50</option>
           <option value="100">100</option>
         </select>
-        <span class="ml-3">Found {{products.total}} products</span>
+        <span class="ml-3">Found {{ products.total }} products</span>
       </div>
       <div>
         <input v-model="search" @change="getProducts(null)"
@@ -37,6 +37,10 @@
                          @click="sortProducts('price')">
           Price
         </TableHeaderCell>
+        <TableHeaderCell field="quantity" :sort-field="sortField" :sort-direction="sortDirection"
+                         @click="sortProducts('quantity')">
+          Quantity
+        </TableHeaderCell>
         <TableHeaderCell field="updated_at" :sort-field="sortField" :sort-direction="sortDirection"
                          @click="sortProducts('updated_at')">
           Last Updated At
@@ -60,13 +64,17 @@
       <tr v-for="(product, index) of products.data">
         <td class="border-b p-2 ">{{ product.id }}</td>
         <td class="border-b p-2 ">
-          <img class="w-16 h-16 object-cover" :src="product.image_url" :alt="product.title">
+          <img v-if="product.image_url" class="w-16 h-16 object-cover" :src="product.image_url" :alt="product.title">
+          <img v-else class="w-16 h-16 object-cover" src="../../assets/noimage.png">
         </td>
         <td class="border-b p-2 max-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis">
           {{ product.title }}
         </td>
         <td class="border-b p-2">
           {{ $filters.currencyUSD(product.price) }}
+        </td>
+        <td class="border-b p-2">
+          {{ product.quantity }}
         </td>
         <td class="border-b p-2 ">
           {{ product.updated_at }}
@@ -96,12 +104,12 @@
               >
                 <div class="px-1 py-1">
                   <MenuItem v-slot="{ active }">
-                    <button
+                    <router-link
+                      :to="{name: 'app.products.edit', params: {id: product.id}}"
                       :class="[
                         active ? 'bg-indigo-600 text-white' : 'text-gray-900',
                         'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                       ]"
-                      @click="editProduct(product)"
                     >
                       <PencilIcon
                         :active="active"
@@ -109,7 +117,7 @@
                         aria-hidden="true"
                       />
                       Edit
-                    </button>
+                    </router-link>
                   </MenuItem>
                   <MenuItem v-slot="{ active }">
                     <button
@@ -178,7 +186,6 @@ import {PRODUCTS_PER_PAGE} from "../../constants";
 import TableHeaderCell from "../../components/core/Table/TableHeaderCell.vue";
 import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/vue";
 import {DotsVerticalIcon, PencilIcon, TrashIcon} from '@heroicons/vue/outline'
-import ProductModal from "./ProductModal.vue";
 
 const perPage = ref(PRODUCTS_PER_PAGE);
 const search = ref('');
@@ -187,9 +194,6 @@ const sortField = ref('updated_at');
 const sortDirection = ref('desc')
 
 const product = ref({})
-const showProductModal = ref(false);
-
-const emit = defineEmits(['clickEdit'])
 
 onMounted(() => {
   getProducts();
@@ -229,24 +233,17 @@ function sortProducts(field) {
   getProducts()
 }
 
-function showAddNewModal() {
-  showProductModal.value = true
-}
-
 function deleteProduct(product) {
   if (!confirm(`Are you sure you want to delete the product?`)) {
     return
   }
   store.dispatch('deleteProduct', product.id)
     .then(res => {
-      // TODO Show notification
+      store.commit('showToast', 'Product was successfully deleted');
       store.dispatch('getProducts')
     })
 }
 
-function editProduct(p) {
-  emit('clickEdit', p)
-}
 </script>
 
 <style scoped>

@@ -3,16 +3,22 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port=3000",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^39.0.1",
+    "@ckeditor/ckeditor5-vue": "^5.1.0",
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
+    "sortablejs": "^1.15.0",
+    "sortablejs-vue3": "^1.2.9",
+    "uuid": "^9.0.0",
     "vue": "^3.2.25",
     "vue-chartjs": "^4.1.2",
     "vue-router": "^4.0.13",
+    "vue3-treeselect": "^0.1.10",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
@@ -23,6 +29,6 @@
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.5",
-    "vite": "^2.9.9"
+    "vite": "^4.4.9"
   }
 }

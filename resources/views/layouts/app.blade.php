@@ -28,8 +28,9 @@
     x-show="visible"
     x-transition
     x-cloak
-    @notify.window="show($event.detail.message)"
-    class="fixed w-[400px] left-1/2 -ml-[200px] top-16 py-2 px-4 pb-4 bg-emerald-500 text-white"
+    @notify.window="show($event.detail.message, $event.detail.type || 'success')"
+    class="fixed w-[400px] left-1/2 -ml-[200px] top-16 py-2 px-4 pb-4 text-white"
+    :class="type === 'success' ? 'bg-emerald-500' : 'bg-red-500'"
 >
     <div class="font-semibold" x-text="message"></div>
     <button

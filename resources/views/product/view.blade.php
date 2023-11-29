@@ -2,16 +2,18 @@
     <div  x-data="productItem({{ json_encode([
                     'id' => $product->id,
                     'slug' => $product->slug,
-                    'image' => $product->image,
+                    'image' => $product->image ?: '/img/noimage.png',
                     'title' => $product->title,
                     'price' => $product->price,
+                    'quantity' => $product->quantity,
                     'addToCartUrl' => route('cart.add', $product)
                 ]) }})" class="container mx-auto">
         <div class="grid gap-6 grid-cols-1 lg:grid-cols-5">
             <div class="lg:col-span-3">
                 <div
                     x-data="{
-                      images: ['{{$product->image}}'],
+                      images: {{$product->images->count() ?
+                 $product->images->map(fn($im) => $im->url) : json_encode(['/img/noimage.png'])}},
                       activeImage: null,
                       prev() {
                           let index = this.images.indexOf(this.activeImage);
@@ -96,6 +98,11 @@
                     {{$product->title}}
                 </h1>
                 <div class="text-xl font-bold mb-6">${{$product->price}}</div>
+                @if ($product->quantity === 0)
+                    <div class="bg-red-400 text-white py-2 px-3 rounded mb-3">
+                        The product is out of stock
+                    </div>
+                @endif
                 <div class="flex items-center justify-between mb-5">
                     <label for="quantity" class="block font-bold mr-4">
                         Quantity
@@ -110,8 +117,10 @@
                     />
                 </div>
                 <button
+                    :disabled="product.quantity === 0"
                     @click="addToCart($refs.quantityEl.value)"
                     class="btn-primary py-4 text-lg flex justify-center min-w-0 w-full mb-6"
+                    :class="product.quantity === 0 ? 'cursor-not-allowed' : 'cursor-pointer'"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -135,7 +144,7 @@
                         x-collapse.min.120px
                         class="text-gray-500 wysiwyg-content"
                     >
-                        {{ $product->description }}
+                        {!! $product->description !!}
                     </div>
                     <p class="text-right">
                         <a

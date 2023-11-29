@@ -1,7 +1,7 @@
 <template>
   <div>
     <label class="sr-only">{{ label }}</label>
-    <div class="mt-1 flex rounded-md shadow-sm">
+    <div class="mt-1 flex rounded-md" :class="type === 'checkbox' ? 'items-center' : 'shadow-sm'">
       <span v-if="prepend"
             class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
         {{ prepend }}
@@ -12,7 +12,7 @@
                 :value="props.modelValue"
                 :class="inputClasses"
                 @change="onChange($event.target.value)">
-          <option v-for="option of selectOptions" :value="option.key">{{option.text}}</option>
+          <option v-for="option of selectOptions" :value="option.key">{{ option.text }}</option>
         </select>
       </template>
       <template v-else-if="type === 'textarea'">
@@ -22,6 +22,14 @@
                 @input="emit('update:modelValue', $event.target.value)"
                 :class="inputClasses"
                 :placeholder="label"></textarea>
+      </template>
+      <template v-else-if="type === 'richtext'">
+        <ckeditor :editor="editor"
+                  :required="required"
+                  :model-value="props.modelValue"
+                  @input="onChange"
+                  :class="inputClasses"
+                  :config="editorConfig"></ckeditor>
       </template>
       <template v-else-if="type === 'file'">
         <input :type="type"
@@ -57,12 +65,16 @@
         {{ append }}
       </span>
     </div>
+    <small v-if="errors && errors[0]" class="text-red-600">{{ errors[0] }}</small>
   </div>
 </template>
 
 <script setup>
 
 import {computed, ref} from "vue";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
+const editor = ClassicEditor;
 
 const props = defineProps({
   modelValue: [String, Number, File],
@@ -81,7 +93,15 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  selectOptions: Array
+  selectOptions: Array,
+  errors: {
+    type: Array,
+    required: false
+  },
+  editorConfig: {
+    type: Object,
+    default: () => ({})
+  }
 })
 
 const id = computed(() => {
@@ -101,6 +121,9 @@ const inputClasses = computed(() => {
   } else if (!props.prepend && !props.append) {
     cls.push('rounded-md')
   }
+  if (props.errors && props.errors[0]) {
+    cls.push('border-red-600 focus:border-red-600')
+  }
   return cls.join(' ')
 })
 const emit = defineEmits(['update:modelValue', 'change'])
@@ -113,5 +136,11 @@ function onChange(value) {
 </script>
 
 <style scoped>
+/deep/ .ck-editor {
+  width: 100%;
+}
 
+/deep/ .ck-content {
+  min-height: 200px;
+}
 </style>

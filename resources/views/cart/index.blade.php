@@ -8,7 +8,7 @@
                     $products->map(fn($product) => [
                         'id' => $product->id,
                         'slug' => $product->slug,
-                        'image' => $product->image,
+                        'image' => $product->image ?: '/img/noimage.png',
                         'title' => $product->title,
                         'price' => $product->price,
                         'quantity' => $cartItems[$product->id]['quantity'],

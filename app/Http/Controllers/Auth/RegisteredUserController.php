@@ -61,14 +61,15 @@ class RegisteredUserController extends Controller
             event(new Registered($user));
             Auth::login($user);
 
-            Cart::moveCartItemsIntoDb();
-            DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
             throw ValidationException::withMessages([
                 'email' => 'There was a problem during email sending. Please try to login with existing accounts',
             ]);
         }
+        DB::commit();
+
+        Cart::moveCartItemsIntoDb();
 
         return redirect(RouteServiceProvider::HOME);
     }
