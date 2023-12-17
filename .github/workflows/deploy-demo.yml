@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [demo]
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -51,10 +51,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script_stop: true
           script: |
-            cd apps
-            cd laravel-example
+            cd domains
+            cd lcommerce.net
             git pull
-            npm ci
-            npm run prod
-            composer i
+            composer install
             php artisan migrate --force
