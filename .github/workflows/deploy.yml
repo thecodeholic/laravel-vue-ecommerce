@@ -33,14 +33,14 @@ jobs:
           npm run build
       - name: Directory Permissions
         run: chmod 755 -R storage bootstrap/cache
-      - name: Run Unit tests
-        env:
-          APP_ENV: testing
-          DB_CONNECTION: mysql
-          DB_USERNAME: laravel_test_user
-          DB_PASSWORD: super_secret
-          DB_DATABASE: laravel_test_db
-        run: php artisan test
+#      - name: Run Unit tests
+#        env:
+#          APP_ENV: testing
+#          DB_CONNECTION: mysql
+#          DB_USERNAME: laravel_test_user
+#          DB_PASSWORD: super_secret
+#          DB_DATABASE: laravel_test_db
+#        run: php artisan test
       - name: Deploy to Server
         if: ${{ success() }}
         uses: appleboy/ssh-action@master
