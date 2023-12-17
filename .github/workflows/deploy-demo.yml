@@ -54,5 +54,5 @@ jobs:
             cd domains
             cd lcommerce.net
             git pull
-            composer install
+            php composer.phar install
             php artisan migrate --force
