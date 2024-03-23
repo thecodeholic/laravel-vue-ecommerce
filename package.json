@@ -1,20 +1,21 @@
 {
     "private": true,
+    "type": "module",
     "scripts": {
         "dev": "vite --port=3001",
         "build": "vite build"
     },
     "devDependencies": {
-        "@alpinejs/collapse": "^3.10.3",
-        "@tailwindcss/aspect-ratio": "^0.4.0",
-        "@tailwindcss/forms": "^0.5.2",
-        "alpinejs": "^3.4.2",
-        "autoprefixer": "^10.4.2",
-        "axios": "^0.25",
-        "laravel-vite-plugin": "^0.2.1",
-        "lodash": "^4.17.19",
-        "postcss": "^8.4.6",
-        "tailwindcss": "^3.1.0",
-        "vite": "^4.4.9"
+        "@alpinejs/collapse": "^3.13.7",
+        "@tailwindcss/aspect-ratio": "^0.4.2",
+        "@tailwindcss/forms": "^0.5.7",
+        "alpinejs": "^3.13.7",
+        "autoprefixer": "^10.4.19",
+        "axios": "^1.6.8",
+        "laravel-vite-plugin": "^1.0",
+        "lodash": "^4.17.21",
+        "postcss": "^8.4.38",
+        "tailwindcss": "^3.4.1",
+        "vite": "^5.2.4"
     }
 }
