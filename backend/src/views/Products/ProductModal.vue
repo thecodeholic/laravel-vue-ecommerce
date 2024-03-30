@@ -77,14 +77,6 @@ import CustomInput from "../../components/core/CustomInput.vue";
 import store from "../../store/index.js";
 import Spinner from "../../components/core/Spinner.vue";
 
-const product = ref({
-  id: props.product.id,
-  title: props.product.title,
-  image: props.product.image,
-  description: props.product.description,
-  price: props.product.price
-})
-
 const loading = ref(false)
 
 const props = defineProps({
@@ -93,6 +85,14 @@ const props = defineProps({
     required: true,
     type: Object,
   }
+})
+
+const product = ref({
+  id: props.product.id,
+  title: props.product.title,
+  image: props.product.image,
+  description: props.product.description,
+  price: props.product.price
 })
 
 const emit = defineEmits(['update:modelValue', 'close'])
