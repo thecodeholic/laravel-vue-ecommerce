@@ -185,6 +185,9 @@ export function updateCustomer({commit}, customer) {
 export function deleteCustomer({commit}, customer) {
   return axiosClient.delete(`/customers/${customer.id}`)
 }
+export function deleteUser({commit}, user) {
+  return axiosClient.delete(`/users/${user.id}`)
+}
 
 export function getCategories({commit, state}, {sort_field, sort_direction} = {}) {
   commit('setCategories', [true])
