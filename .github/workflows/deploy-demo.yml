@@ -9,11 +9,11 @@ jobs:
     steps:
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.3'
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
       - uses: mirromutth/mysql-action@v1.1
         with:
           mysql database: laravel-test-db

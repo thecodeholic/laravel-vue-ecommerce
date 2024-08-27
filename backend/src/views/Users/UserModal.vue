@@ -77,6 +77,14 @@ import CustomInput from "../../components/core/CustomInput.vue";
 import store from "../../store/index.js";
 import Spinner from "../../components/core/Spinner.vue";
 
+const props = defineProps({
+  modelValue: Boolean,
+  user: {
+    required: true,
+    type: Object,
+  }
+})
+  
 const user = ref({
   id: props.user.id,
   name: props.user.name,
@@ -85,13 +93,6 @@ const user = ref({
 
 const loading = ref(false)
 
-const props = defineProps({
-  modelValue: Boolean,
-  user: {
-    required: true,
-    type: Object,
-  }
-})
 
 const emit = defineEmits(['update:modelValue', 'close'])
 

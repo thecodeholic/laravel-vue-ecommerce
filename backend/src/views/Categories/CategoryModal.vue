@@ -81,13 +81,6 @@ import CustomInput from "../../components/core/CustomInput.vue";
 import store from "../../store/index.js";
 import Spinner from "../../components/core/Spinner.vue";
 
-const category = ref({
-  id: props.category.id,
-  name: props.category.name,
-  active: props.category.active,
-  parent_id: props.category.parent_id,
-})
-
 const loading = ref(false)
 const errors = ref({})
 
@@ -97,6 +90,13 @@ const props = defineProps({
     required: true,
     type: Object,
   }
+})
+  
+const category = ref({
+  id: props.category.id,
+  name: props.category.name,
+  active: props.category.active,
+  parent_id: props.category.parent_id,
 })
 
 const emit = defineEmits(['update:modelValue', 'close'])
