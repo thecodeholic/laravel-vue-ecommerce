@@ -25,7 +25,7 @@
         "laravel/telescope": "^v5.0.0",
         "mockery/mockery": "^1.6.11",
         "nunomaduro/collision": "^v8.1.1",
-        "phpunit/phpunit": "^11.0.7",
+        "pestphp/pest": "^4.1",
         "spatie/laravel-ignition": "^2.4.2"
     },
     "autoload": {
@@ -65,7 +65,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     },
     "minimum-stability": "stable",
     "prefer-stable": true
