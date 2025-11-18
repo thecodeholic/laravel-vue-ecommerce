@@ -6,7 +6,6 @@ use App\Helpers\Cart;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,6 +68,6 @@ class RegisteredUserController extends Controller
 
         Cart::moveCartItemsIntoDb();
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(route('home'));
     }
 }
